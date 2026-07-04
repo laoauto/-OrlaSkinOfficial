@@ -4,6 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Orla Skin Official</title>
+
+<!-- PWA: manifest + icons + theme -->
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#D6377E">
+<link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16.png">
+<link rel="shortcut icon" href="./icons/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-180.png">
+<link rel="apple-touch-icon" sizes="152x152" href="./icons/icon-152.png">
+<link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192.png">
+
+<!-- iOS "Add to Home Screen" behavior -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Orla Skin">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="Orla Skin Official">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 :root{--p:#D6377E;--p3:214,55,126;--s:#F8BBD0;--g:#27ae60;--d:#e74c3c;--w:#f39c12;--b:#3498db;--bg:#f5f6fa;--card:#fff;--tx:#333;--sub:#888;--br:#eee;--inp:#fff;--r:12px;--fs:14px;}
@@ -1652,6 +1669,15 @@ function spSaveSettings(name){
       {icon:"💾", label:"ສະຖານະ",    val:"ບັນທຶກແລ້ວ", bg:"rgba(39,174,96,.07)", iconBg:"rgba(39,174,96,.15)", valColor:"var(--g)"},
     ],
     okText:"✅ ດີ!"
+  });
+}
+</script>
+
+<script>
+// ── PWA: ລົງທະບຽນ Service Worker ──
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("./sw.js").catch(()=>{});
   });
 }
 </script>
