@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="lo">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Orla Skin Official</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{--p:#D6377E;--p3:214,55,126;--s:#F8BBD0;--g:#27ae60;--d:#e74c3c;--w:#f39c12;--b:#3498db;--bg:#f5f6fa;--card:#fff;--tx:#333;--sub:#888;--br:#eee;--inp:#fff;--r:12px;--fs:14px;}
+[data-dk]{--bg:#0f1117;--card:#1a1d27;--tx:#e0e0e0;--sub:#9a9a9a;--br:#2e3450;--inp:#22263a;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Segoe UI","Noto Sans Lao",Arial,sans-serif;background:var(--bg);color:var(--tx);font-size:var(--fs);overflow-x:hidden;}
+input,select,textarea,button{font-family:inherit;}
+/* ── Shared ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;}
+.btn-p{background:var(--p);color:#fff;}.btn-p:hover{filter:brightness(1.1);}
+.btn-gh{background:transparent;color:var(--sub);border:1px solid var(--br);}.btn-gh:hover{border-color:var(--p);color:var(--p);}
+.btn-dg{background:rgba(231,76,60,.12);color:var(--d);border:1px solid rgba(231,76,60,.25);}
+.btn-ok{background:rgba(39,174,96,.12);color:var(--g);border:1px solid rgba(39,174,96,.25);}
+.btn-sm{padding:5px 12px;font-size:12px;}
+.bdg{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:600;}
+.bdg-w{background:rgba(243,156,18,.12);color:var(--w);}
+.bdg-g{background:rgba(39,174,96,.12);color:var(--g);}
+.bdg-d{background:rgba(231,76,60,.12);color:var(--d);}
+.bdg-b{background:rgba(52,152,219,.12);color:var(--b);}
+.bdg-s{background:rgba(244,143,177,.12);color:var(--s);}
+.card{background:var(--card);border-radius:var(--r);padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:12px;}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+.fg label{font-size:12px;font-weight:600;color:var(--sub);}
+.fg input,.fg select,.fg textarea{padding:9px 12px;border:1.5px solid var(--br);border-radius:8px;font-size:13px;background:var(--inp);color:var(--tx);}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--p);outline:none;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.empty{text-align:center;padding:32px;color:var(--sub);font-size:13px;}
+.eic{font-size:32px;margin-bottom:8px;}
+.spin{width:20px;height:20px;border:2px solid rgba(var(--p3),.2);border-top-color:var(--p);border-radius:50%;animation:sp .6s linear infinite;display:inline-block;}
+@keyframes sp{to{transform:rotate(360deg)}}
+.ldc{display:flex;flex-direction:column;align-items:center;gap:8px;padding:32px;color:var(--sub);font-size:13px;}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+th,td{text-align:left;padding:7px 5px;border-bottom:1px solid var(--br);vertical-align:middle;}
+th{color:var(--sub);background:rgba(0,0,0,.02);font-size:11px;}
+/* ── Toast ── */
+#tr{position:fixed;top:16px;right:12px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;}
+.toast{background:var(--card);border:1px solid var(--br);border-radius:var(--r);padding:12px 14px;min-width:210px;pointer-events:all;opacity:0;transform:translateX(40px);transition:all .3s;box-shadow:0 4px 16px rgba(0,0,0,.12);display:flex;align-items:flex-start;gap:10px;position:relative;overflow:hidden;}
+.toast.on{opacity:1;transform:translateX(0);}
+.tbar{height:3px;position:absolute;bottom:0;left:0;animation:tb 3.2s linear forwards;}
+@keyframes tb{from{width:100%}to{width:0%}}
+/* ── Success Popup ── */
+.spov{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9500;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);}
+.spov.on{display:flex;animation:spFdIn .25s ease;}
+@keyframes spFdIn{from{opacity:0}to{opacity:1}}
+.spbox{background:var(--card);border-radius:22px;width:100%;max-width:340px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.25);animation:spUp .3s cubic-bezier(.34,1.56,.64,1);}
+@keyframes spUp{from{transform:translateY(40px) scale(.92);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+.sphead{padding:28px 20px 20px;text-align:center;position:relative;}
+.sphead-icon{font-size:54px;margin-bottom:10px;display:block;animation:spBounce .5s ease .1s both;}
+@keyframes spBounce{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.sphead-title{font-size:18px;font-weight:800;margin-bottom:4px;}
+.sphead-sub{font-size:12px;opacity:.75;line-height:1.5;}
+.spbody{padding:0 18px 8px;}
+.sprow{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;border-radius:10px;margin-bottom:6px;}
+.sprow-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.sprow-label{font-size:11px;opacity:.65;margin-bottom:1px;}
+.sprow-val{font-size:13px;font-weight:700;}
+.spfoot{padding:14px 18px 20px;display:flex;gap:8px;}
+.spfoot button{flex:1;padding:12px;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;}
+.spfoot .sp-close{background:rgba(0,0,0,.06);color:var(--sub);}
+.spfoot .sp-ok{background:var(--p);color:#fff;}
+/* confetti dots */
+.sp-confetti{position:absolute;top:0;left:0;right:0;height:100%;pointer-events:none;overflow:hidden;}
+.sp-dot{position:absolute;width:8px;height:8px;border-radius:50%;animation:spDot 1.2s ease-out forwards;}
+@keyframes spDot{0%{transform:translateY(0) rotate(0);opacity:1;}100%{transform:translateY(-120px) rotate(360deg);opacity:0;}}
+
+/* ── Dialog ── */
+.dov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9000;display:none;align-items:center;justify-content:center;padding:20px;}
+.dov.on{display:flex;}
+.dbox{background:var(--card);border-radius:20px;width:100%;max-width:310px;padding:24px 18px;text-align:center;}
+.dico{font-size:42px;margin-bottom:8px;}
+.dttl{font-size:16px;font-weight:800;color:var(--p);margin-bottom:5px;}
+.dmsg{font-size:12px;color:var(--sub);line-height:1.7;margin-bottom:14px;white-space:pre-line;}
+.dinp{width:100%;padding:10px;border:2px solid var(--p);border-radius:8px;font-size:14px;text-align:center;margin-bottom:12px;background:var(--inp);color:var(--tx);}
+.dbtns{display:flex;gap:8px;}
+.dbtns button{flex:1;padding:11px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;border:none;}
+#dok{background:var(--p);color:#fff;}
+#dno{background:rgba(0,0,0,.06);color:var(--sub);}
+/* ── Modal ── */
+.mov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:3000;display:none;align-items:flex-end;justify-content:center;}
+.mov.on{display:flex;}
+.mbox{background:var(--card);width:100%;max-width:480px;border-radius:20px 20px 0 0;padding:20px 18px 28px;max-height:90vh;overflow-y:auto;}
+.mhdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.mttl{font-size:15px;font-weight:700;color:var(--p);}
+.xcl{background:none;border:none;font-size:20px;cursor:pointer;color:var(--sub);}
+.mtabs{display:flex;gap:5px;margin-bottom:12px;}
+.mtab{flex:1;padding:8px;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;background:#eee;color:#333;}
+.mtab.on{background:var(--p);color:#fff;}
+/* ── Admin login trigger ── */
+#atrig{position:fixed;bottom:76px;left:12px;z-index:490;background:rgba(0,0,0,.35);color:#fff;border:none;border-radius:99px;padding:6px 12px;font-size:11px;cursor:pointer;backdrop-filter:blur(4px);}
+/* ── Login screen ── */
+#lscr{position:fixed;inset:0;background:linear-gradient(135deg,#880E4F,#D6377E 40%,#F8BBD0);z-index:99999;display:none;align-items:center;justify-content:center;padding:20px;}
+#lscr.on{display:flex;}
+.lbox{background:#fff;border-radius:24px;padding:28px 20px;width:100%;max-width:320px;text-align:center;}
+.llogo{width:80px;height:80px;border-radius:50%;border:4px solid #F48FB1;object-fit:cover;margin:0 auto 12px;display:block;}
+.lname{font-size:17px;font-weight:800;color:#D6377E;margin-bottom:3px;}
+.lsub{font-size:12px;color:#aaa;margin-bottom:20px;}
+.linp{width:100%;padding:12px;border:2px solid #fce4ec;border-radius:12px;font-size:15px;margin-bottom:10px;background:#fce4ec;text-align:center;}
+.linp:focus{border-color:#D6377E;outline:none;background:#fff;}
+.lbtn{width:100%;padding:13px;background:linear-gradient(135deg,#D6377E,#F8BBD0);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;}
+.lerr{color:#D6377E;font-size:12px;margin:-4px 0 8px;display:none;}
+.lerr.on{display:block;}
+/* Toggle */
+.tgl{position:relative;width:40px;height:22px;flex-shrink:0;}
+.tgl input{opacity:0;width:0;height:0;}
+.sldr{position:absolute;inset:0;background:#ccc;border-radius:22px;cursor:pointer;transition:.3s;}
+.sldr::before{content:"";position:absolute;width:16px;height:16px;bottom:3px;left:3px;background:#fff;border-radius:50%;transition:.3s;}
+input:checked+.sldr{background:var(--p);}
+input:checked+.sldr::before{transform:translateX(18px);}
+/* ──────────────────────────────
+   CUSTOMER PAGE
+────────────────────────────── */
+#apc{display:block;}
+.chdr{background:var(--p);color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.2);}
+.chdr-top{display:flex;flex-direction:column;align-items:center;padding:13px 14px 8px;text-align:center;}
+.clogo{width:66px;height:66px;border-radius:50%;border:3px solid rgba(255,255,255,.9);object-fit:cover;margin-bottom:7px;}
+.mqw{background:linear-gradient(90deg,#880E4F,#D6377E 40%,#880E4F);height:30px;display:flex;align-items:center;overflow:hidden;}
+.mql{flex-shrink:0;background:rgba(255,255,255,.2);color:#fff;font-size:11px;font-weight:700;padding:0 10px;height:100%;display:flex;align-items:center;}
+.mqb{flex:1;overflow:hidden;position:relative;height:100%;}
+.mqi{display:flex;align-items:center;height:100%;position:absolute;white-space:nowrap;animation:mqsc 28s linear infinite;}
+@keyframes mqsc{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.mqt{color:#fff;font-size:12px;padding:0 24px;}
+.ctabs{display:flex;background:var(--card);border-bottom:2px solid var(--br);overflow-x:auto;position:sticky;top:148px;z-index:99;padding:5px 7px;gap:5px;}
+.ctabs::-webkit-scrollbar{display:none;}
+.ctab{flex:1;padding:8px;font-size:13px;font-weight:700;color:var(--sub);border:2px solid var(--br);background:var(--card);cursor:pointer;border-radius:10px;white-space:nowrap;}
+.ctab.on{color:#fff;background:var(--p);border-color:var(--p);}
+.csec{display:none;padding:10px;}
+.csec.on{display:block;}
+/* Products grid */
+.pgw{background:var(--card);border-radius:var(--r);padding:8px 10px;margin-bottom:10px;display:flex;gap:8px;align-items:center;}
+.psch{flex:1;border:1.5px solid var(--br);border-radius:20px;padding:8px 14px;font-size:13px;background:var(--inp);color:var(--tx);}
+.psch:focus{border-color:var(--p);outline:none;}
+.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.pcard{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.07);cursor:pointer;border:2px solid transparent;position:relative;transition:.15s;}
+.pcard:active{transform:scale(.95);}
+.pcard.sl{border-color:var(--p);box-shadow:0 0 0 3px rgba(var(--p3),.2);}
+.pcard img{width:100%;aspect-ratio:1/1;object-fit:cover;background:#f0f0f0;}
+.pcb{padding:7px 8px 10px;}
+.pcn{font-size:12px;font-weight:700;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:4px;}
+.pcp{font-size:13px;color:var(--p);font-weight:800;}
+.pcs{font-size:10px;margin-top:2px;}
+.chk{position:absolute;top:6px;right:6px;background:var(--p);color:#fff;border-radius:50%;width:18px;height:18px;font-size:11px;display:none;align-items:center;justify-content:center;font-weight:700;}
+.pcard.sl .chk{display:flex;}
+.pout{opacity:.4;cursor:not-allowed;}
+/* Cart FAB */
+.cfab{position:fixed;bottom:22px;right:15px;background:var(--p);color:#fff;border:none;width:56px;height:56px;border-radius:50%;font-size:22px;cursor:pointer;box-shadow:0 4px 14px rgba(var(--p3),.5);z-index:500;display:none;align-items:center;justify-content:center;}
+.cfab.on{display:flex;}
+.ccnt{position:absolute;top:-2px;right:-2px;background:var(--d);color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:700;}
+/* Drawers */
+.drw{position:fixed;inset:0;z-index:1000;display:none;}
+.drw.on{display:flex;}
+.drbg{position:absolute;inset:0;background:rgba(0,0,0,.5);}
+.drp{position:absolute;bottom:0;left:0;right:0;background:var(--card);border-radius:20px 20px 0 0;max-height:88vh;display:flex;flex-direction:column;}
+.drh{padding:15px 15px 9px;border-bottom:1px solid var(--br);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.drttl{font-size:15px;font-weight:700;color:var(--p);}
+.drb{flex:1;overflow-y:auto;padding:10px 14px;}
+.drf{padding:12px 14px 24px;border-top:1px solid var(--br);flex-shrink:0;}
+.cir{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--br);}
+.cii{width:46px;height:46px;object-fit:cover;border-radius:8px;flex-shrink:0;background:#f0f0f0;}
+.cin{flex:1;}
+.cin-nm{font-size:12px;font-weight:700;}
+.cin-pr{font-size:11px;color:var(--sub);}
+.qc{display:flex;align-items:center;gap:6px;margin-top:5px;}
+.qb{width:26px;height:26px;border:1.5px solid var(--p);border-radius:50%;background:none;color:var(--p);font-weight:700;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.qn{font-size:13px;font-weight:700;min-width:24px;text-align:center;}
+.cdl{background:none;border:none;font-size:18px;cursor:pointer;color:var(--d);flex-shrink:0;}
+.ctrow{display:flex;justify-content:space-between;align-items:center;margin:10px 0 12px;}
+.ctamt{font-size:18px;font-weight:800;color:var(--p);}
+/* Checkout */
+.sopts{display:flex;gap:6px;flex-wrap:wrap;}
+.sopt{display:flex;align-items:center;gap:5px;padding:7px 12px;border:1.5px solid var(--br);border-radius:20px;font-size:12px;cursor:pointer;background:var(--card);}
+.sopt input{width:auto;margin:0;}
+.sopt:has(input:checked){background:rgba(var(--p3),.08);border-color:var(--p);color:var(--p);font-weight:700;}
+.popts{display:grid;gap:8px;}
+.popt{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1.5px solid var(--br);border-radius:var(--r);cursor:pointer;}
+.popt input{margin-top:3px;width:auto;flex-shrink:0;}
+.popt:has(input:checked){background:rgba(var(--p3),.06);border-color:var(--p);}
+.qrs{background:rgba(var(--p3),.05);border:2px solid rgba(var(--p3),.25);border-radius:var(--r);padding:14px;text-align:center;margin:10px 0;}
+.qri{max-width:220px;width:80%;border-radius:10px;margin:8px auto;display:block;border:4px solid var(--p);cursor:pointer;}
+.sla{border:2px dashed var(--p);border-radius:var(--r);padding:14px;text-align:center;cursor:pointer;margin-top:8px;}
+.osum{background:rgba(var(--p3),.05);border:1px solid rgba(var(--p3),.2);border-radius:var(--r);padding:12px;margin-bottom:12px;}
+/* Success screen */
+.sscrn{display:none;padding:22px 14px;text-align:center;}
+.sscrn.on{display:block;}
+.billcard{background:var(--card);border:2px solid var(--p);border-radius:16px;padding:16px;text-align:left;box-shadow:0 4px 18px rgba(var(--p3),.15);max-width:440px;margin:0 auto;}
+/* Status */
+.stsc{background:var(--card);border-radius:var(--r);padding:15px;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:10px;}
+.road{position:relative;height:68px;margin:12px 0 16px;}
+.rt{position:absolute;top:28px;left:0;right:0;height:6px;background:#eee;border-radius:3px;overflow:hidden;}
+.rf{height:100%;background:linear-gradient(90deg,var(--p),var(--s));border-radius:3px;transition:width 1.2s;}
+.rm{position:absolute;top:6px;font-size:26px;transition:left 1.2s;}
+.rds{position:absolute;top:20px;left:0;right:0;display:flex;justify-content:space-between;padding:0 2px;}
+.rdw{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.rd{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;border:2px solid #ccc;background:#e0e0e0;color:#aaa;}
+.rd.dn{background:var(--p);border-color:var(--p);color:#fff;}
+.rdl{font-size:9px;white-space:nowrap;}
+/* Contact */
+.ccard{display:flex;align-items:center;gap:12px;padding:13px;margin-bottom:10px;background:var(--card);border-radius:14px;text-decoration:none;color:var(--tx);box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.ccib{width:50px;height:50px;border-radius:13px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.1);padding:4px;}
+/* Image viewer */
+.ivw{position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;}
+.ivw.on{display:flex;}
+.ivw img{max-width:96vw;max-height:80vh;object-fit:contain;border-radius:8px;}
+.ivc{position:absolute;top:13px;right:14px;background:rgba(255,255,255,.15);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;}
+.ivnav{background:rgba(255,255,255,.15);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;}
+/* ──────────────────────────────
+   ADMIN PAGE
+────────────────────────────── */
+#apa{display:none;}
+.ahdr{background:var(--p);color:#fff;padding:10px 13px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.2);}
+.ahdr-top{display:flex;align-items:center;gap:9px;}
+.algo{height:46px;width:46px;border-radius:50%;border:2px solid rgba(255,255,255,.85);object-fit:cover;cursor:pointer;flex-shrink:0;}
+.anav{position:fixed;bottom:0;width:100%;background:var(--card);display:flex;border-top:1px solid var(--br);height:60px;z-index:1000;overflow-x:auto;}
+.anav::-webkit-scrollbar{display:none;}
+.ani{flex:1;min-width:50px;text-align:center;color:var(--sub);cursor:pointer;font-size:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3px 2px;white-space:nowrap;}
+.ani .ic{font-size:17px;margin-bottom:2px;}
+.ani.on{color:var(--p);font-weight:700;}
+.apg{display:none;padding:10px;padding-bottom:70px;}
+.apg.on{display:block;}
+/* Stats */
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.scard{background:var(--card);border-radius:var(--r);padding:9px 5px;text-align:center;box-shadow:0 1px 5px rgba(0,0,0,.06);border-top:3px solid var(--p);}
+.sv{font-size:14px;font-weight:700;color:var(--p);}
+.sl{font-size:10px;color:var(--sub);margin-top:2px;}
+/* Order cards */
+.ocrd{background:var(--card);border:1px solid var(--br);border-radius:var(--r);padding:12px;margin-bottom:10px;}
+.ohdr{border-radius:9px;padding:9px 11px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:flex-start;}
+.ocd{font-weight:700;font-size:14px;color:var(--p);}
+.oti{font-size:10px;color:var(--sub);margin-top:2px;}
+.oir{display:flex;gap:6px;font-size:12px;margin-bottom:4px;align-items:baseline;}
+.olb{color:var(--sub);font-size:11px;min-width:58px;flex-shrink:0;}
+.oit{background:rgba(var(--p3),.05);border-left:3px solid var(--p);border-radius:0 6px 6px 0;padding:6px 10px;font-size:11px;margin:7px 0;color:var(--sub);line-height:1.6;}
+.otr{display:flex;justify-content:space-between;align-items:center;margin:7px 0 9px;}
+.otamt{font-weight:700;font-size:15px;color:var(--p);}
+.sbts{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:7px;}
+.stb{border:none;border-radius:20px;padding:5px 9px;font-size:10px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s;}
+.st-w{background:#fff3cd;color:#856404;border:1.5px solid #ffc107;}
+.st-a{background:#d1e7dd;color:#0a3622;border:1.5px solid #198754;}
+.st-k{background:#cfe2ff;color:#052c65;border:1.5px solid #0d6efd;}
+.st-d{background:#fce4ec;color:#880E4F;border:1.5px solid var(--p);}
+.stb.cur{font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.15);transform:scale(1.05);}
+.stb:not(.cur){opacity:.5;}
+.sth{width:44px;height:44px;object-fit:cover;border-radius:6px;border:1.5px solid var(--br);cursor:pointer;flex-shrink:0;}
+.upbb{font-size:11px;padding:5px 9px;border:1.5px solid var(--p);border-radius:20px;background:none;color:var(--p);cursor:pointer;font-weight:700;}
+.ofr{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+.fb{padding:5px 11px;border-radius:20px;font-size:11px;border:1.5px solid var(--br);cursor:pointer;background:var(--card);color:var(--tx);}
+.fb.on{background:var(--p);color:#fff;border-color:var(--p);}
+.osb{display:flex;gap:12px;flex-wrap:wrap;background:rgba(var(--p3),.06);border-radius:8px;padding:7px 11px;margin-bottom:8px;font-size:12px;}
+/* Product admin */
+.pcarda{background:var(--card);border:1px solid var(--br);border-radius:var(--r);padding:11px;display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;}
+.ptha{width:60px;height:60px;object-fit:cover;border-radius:8px;flex-shrink:0;background:#f0f0f0;border:1.5px solid var(--br);}
+/* POS */
+.posl{display:flex;height:calc(100vh - 60px - 58px);overflow:hidden;}
+.posl-l{width:52%;border-right:1px solid var(--br);display:flex;flex-direction:column;overflow:hidden;}
+.posl-lh{padding:7px;background:var(--card);border-bottom:1px solid var(--br);flex-shrink:0;}
+.possc{flex:1;overflow-y:auto;padding:5px;}
+.posgr{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
+.pospc{background:var(--card);border-radius:7px;border:2px solid var(--br);padding:3px;text-align:center;cursor:pointer;position:relative;user-select:none;}
+.pospc:active{transform:scale(.9);}
+.pospc.sl{border-color:var(--p);box-shadow:0 0 0 2px rgba(var(--p3),.2);}
+.pospc img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:4px;background:#f0f0f0;}
+.pospc-n{font-size:9px;font-weight:700;margin-top:2px;line-height:1.2;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+.pospc-p{font-size:9px;color:var(--p);font-weight:700;}
+.pospc-s{font-size:8px;}
+.pck{position:absolute;top:2px;right:2px;background:var(--p);color:#fff;border-radius:50%;width:12px;height:12px;font-size:8px;display:none;align-items:center;justify-content:center;}
+.pospc.sl .pck{display:flex;}
+.posout{opacity:.4;cursor:not-allowed;}
+.posl-r{width:48%;display:flex;flex-direction:column;overflow:hidden;}
+.posl-rs{flex:1;overflow-y:auto;padding:7px;}
+.pcust{background:var(--card);border:1.5px solid rgba(var(--p3),.2);border-radius:var(--r);padding:9px;margin-bottom:7px;}
+.pcust h4{font-size:12px;color:var(--p);margin-bottom:6px;}
+.psel{background:var(--card);border:2px solid var(--p);border-radius:var(--r);padding:8px;margin-bottom:7px;display:none;}
+.psel.on{display:block;}
+.pcrt{background:var(--card);border-radius:var(--r);padding:8px;border:1px solid var(--br);}
+/* Settings */
+.setsec{background:var(--card);border-radius:var(--r);padding:13px;margin-bottom:11px;}
+.setsec h4{margin:0 0 11px;color:var(--p);font-size:13px;border-bottom:1px solid var(--br);padding-bottom:7px;}
+.setr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px;}
+.setr label{font-size:12px;flex-shrink:0;min-width:85px;}
+.setr input[type=text],.setr input[type=url],.setr input[type=number]{margin:0;flex:1;font-size:12px;padding:7px 9px;border:1px solid var(--br);border-radius:6px;background:var(--inp);color:var(--tx);}
+.setr input[type=color]{width:38px;height:33px;padding:2px;border-radius:5px;cursor:pointer;border:1px solid var(--br);margin:0;}
+.csws{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;}
+.csw{width:23px;height:23px;border-radius:50%;cursor:pointer;border:3px solid transparent;}
+.csw.on,.csw:hover{border-color:#333;}
+/* KPI */
+.kgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0;}
+.kpi{border-radius:var(--r);padding:11px;text-align:center;border:1.5px solid transparent;}
+.kpi b{display:block;font-size:15px;font-weight:700;margin-bottom:2px;}
+.kpi span{font-size:10px;color:var(--sub);}
+/* History */
+.hsc{background:var(--card);border:1px solid var(--br);border-radius:9px;padding:9px;margin-bottom:7px;}
+.hlc{background:var(--card);border-left:4px solid;border-radius:9px;padding:8px 9px;margin-bottom:6px;}
+.hlc.ts{border-color:var(--d);}
+.hlc.ta{border-color:var(--s);}
+.dgh{background:rgba(var(--p3),.1);border-radius:7px;padding:5px 9px;margin:9px 0 5px;font-size:12px;font-weight:700;color:var(--p);display:flex;justify-content:space-between;}
+/* Notif */
+.nbd{position:fixed;bottom:68px;right:12px;background:var(--d);color:#fff;border-radius:50%;width:48px;height:48px;align-items:center;justify-content:center;font-size:20px;cursor:pointer;z-index:600;box-shadow:0 4px 14px rgba(231,76,60,.5);animation:pls 1s infinite;flex-direction:column;display:none;}
+.nbd.on{display:flex;}
+@keyframes pls{0%,100%{transform:scale(1);}50%{transform:scale(1.12);}}
+.nov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:8000;display:none;align-items:center;justify-content:center;padding:16px;}
+.nov.on{display:flex;}
+.nbox{background:var(--card);border-radius:20px;padding:20px 16px;max-width:340px;width:100%;text-align:center;border:3px solid var(--p);}
+/* Bill item */
+.bia{background:rgba(var(--p3),.04);border:1px solid rgba(var(--p3),.15);border-radius:8px;padding:7px 9px;margin-bottom:5px;cursor:pointer;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--br);border-radius:2px;}
+</style>
+</head>
+<body>
+<button id="atrig" onclick="showLogin()">🔐 Admin</button>
+<div id="tr"></div>
+<input type="file" id="shipf" accept="image/*" style="display:none">
+
+<!-- LOGIN -->
+<div id="lscr">
+  <div class="lbox">
+    <img class="llogo" id="ll-logo" src="" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 80 80%22%3E%3Ccircle cx=%2240%22 cy=%2240%22 r=%2240%22 fill=%22%23D6377E%22/%3E%3Ctext x=%2250%25%22 y=%2256%25%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2220%22%3EDS%3C/text%3E%3C/svg%3E'">
+    <div class="lname" id="ll-name">Orla Skin Official</div>
+    <div class="lsub">Admin Only</div>
+    <input type="password" class="linp" id="lpwd" placeholder="ລະຫັດຜ່ານ..." onkeydown="if(event.key==='Enter')doLogin()" autocomplete="current-password">
+    <div class="lerr" id="lerr">❌ ລະຫັດຜ່ານບໍ່ຖືກ</div>
+    <button class="lbtn" onclick="doLogin()">🔓 ເຂົ້າລະບົບ</button>
+    <button onclick="hideLogin()" style="margin-top:10px;background:none;border:none;color:#aaa;font-size:12px;cursor:pointer">← ກັບໄປຮ້ານ</button>
+  </div>
+</div>
+
+<!-- CUSTOMER APP -->
+<div id="apc">
+  <div class="chdr" id="chdr">
+    <div class="chdr-top">
+      <img class="clogo" id="c-logo" src="" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 80 80%22%3E%3Ccircle cx=%2240%22 cy=%2240%22 r=%2240%22 fill=%22%23D6377E%22/%3E%3C/svg%3E'">
+      <div id="c-shopname" style="font-weight:900;font-size:19px"></div>
+      <div id="c-slogan" style="font-size:11px;opacity:.88;margin-top:2px"></div>
+    </div>
+    <div id="c-socs" style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;padding:0 12px 9px"></div>
+  </div>
+  <div class="mqw"><div class="mql">📢</div><div class="mqb"><div class="mqi" id="c-mq"></div></div></div>
+  <div class="ctabs">
+    <button class="ctab on" onclick="cTab('shop',this)">🛍️ ສັ່ງຊື້</button>
+    <button class="ctab" onclick="cTab('status',this)">📦 ສະຖານະ</button>
+    <button class="ctab" onclick="cTab('contact',this)">📞 ຕິດຕໍ່</button>
+  </div>
+
+  <!-- Shop tab -->
+  <div id="ctab-shop" class="csec on">
+    <div class="pgw">
+      <input class="psch" type="text" placeholder="🔍 ຄົ້ນຫາ..." id="c-psch" oninput="cFilt()">
+      <span id="c-pcnt" style="font-size:11px;color:var(--sub);flex-shrink:0"></span>
+    </div>
+    <div id="c-pgrid" class="pgrid"><div style="grid-column:1/-1" class="ldc"><div class="spin"></div>ກຳລັງໂຫຼດ...</div></div>
+  </div>
+
+  <!-- Status tab -->
+  <div id="ctab-status" class="csec">
+    <div class="card">
+      <div style="font-size:15px;font-weight:700;color:var(--p);margin-bottom:12px">📦 ກວດ Order</div>
+      <label style="font-size:12px;color:var(--sub);display:block;margin-bottom:4px">ລະຫັດ Order</label>
+      <input type="text" id="c-stcode" style="width:100%;padding:11px;border:1.5px solid var(--br);border-radius:8px;font-size:14px;background:var(--inp);color:var(--tx);letter-spacing:.5px" placeholder="ORD-XXXXXX-XXXXX">
+      <button class="btn btn-p" style="width:100%;margin-top:10px;padding:13px" onclick="cCheckSt()">🔍 ກວດ</button>
+    </div>
+    <div id="c-stres"></div>
+  </div>
+
+  <!-- Contact tab -->
+  <div id="ctab-contact" class="csec">
+    <div class="card">
+      <div style="font-size:15px;font-weight:700;color:var(--p);margin-bottom:13px">📞 ຕິດຕໍ່</div>
+      <div id="c-contacts"></div>
+    </div>
+  </div>
+
+  <!-- Cart FAB -->
+  <button class="cfab" id="c-fab" onclick="cOpenCart()">🛒<span class="ccnt" id="c-cnt">0</span></button>
+
+  <!-- Cart Drawer -->
+  <div class="drw" id="c-cdrw">
+    <div class="drbg" onclick="cCloseCart()"></div>
+    <div class="drp">
+      <div class="drh"><div class="drttl">🛒 ກະຕ່າ</div><button class="xcl" onclick="cCloseCart()">✕</button></div>
+      <div class="drb" id="c-cbody"><div class="empty">ຍັງບໍ່ໄດ້ເລືອກ</div></div>
+      <div class="drf">
+        <div class="ctrow"><span style="font-size:14px;font-weight:700">ລວມ:</span><span class="ctamt" id="c-ctot">0 ₭</span></div>
+        <button class="btn btn-p" style="width:100%;padding:13px" onclick="cOpenCk()">ສັ່ງຊື້ ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout Drawer -->
+  <div class="drw" id="c-ckdrw">
+    <div class="drbg" onclick="cCloseCk()"></div>
+    <div class="drp" style="max-height:92vh">
+      <div class="drh"><div class="drttl">📋 ຂໍ້ມູນສັ່ງ</div><button class="xcl" onclick="cCloseCk()">✕</button></div>
+      <div class="drb">
+        <div class="osum" id="c-cksum"></div>
+        <div class="fg"><label>👤 ຊື່ *</label><input type="text" id="ck-name" placeholder="ຊື່ລູກຄ້າ"></div>
+        <div class="frow">
+          <div class="fg"><label>📞 ເບີ *</label><input type="tel" id="ck-ph" placeholder="020XXXXXXXX"></div>
+          <div class="fg"><label>🏠 ແຂວງ *</label><select id="ck-prov"><option value="">ເລືອກ...</option></select></div>
+        </div>
+        <div class="fg"><label>📍 ທີ່ຢູ່</label><input type="text" id="ck-addr" placeholder="ບ້ານ, ເມືອງ..."></div>
+        <div class="fg">
+          <label>🚚 ຂົນສົ່ງ *</label>
+          <div class="sopts" id="ck-ships"></div>
+          <input type="text" id="ck-branch" placeholder="ສາຂາ/ໝາຍເຫດ" style="margin-top:6px;width:100%;padding:9px 12px;border:1.5px solid var(--br);border-radius:8px;font-size:13px;background:var(--inp);color:var(--tx)">
+        </div>
+        <div class="fg"><label>💳 ຊຳລະ *</label><div class="popts" id="ck-pays"></div></div>
+        <div class="qrs" id="ck-qrs" style="display:none">
+          <div style="font-size:13px;font-weight:700;color:var(--p);margin-bottom:4px">📱 QR ຊຳລະ</div>
+          <div style="font-size:11px;color:var(--sub);margin-bottom:7px">ສະແກນ → ໂອນ → Upload Slip</div>
+          <img id="ck-qri" src="" class="qri" alt="QR">
+          <div id="ck-bankinfo" style="text-align:center;font-size:13px;font-weight:700;color:var(--p);margin-top:-2px;margin-bottom:9px"></div>
+          <div style="margin-top:9px">
+            <div style="font-size:12px;font-weight:700;color:var(--p);margin-bottom:5px">📸 Upload Slip *</div>
+            <div class="sla" onclick="document.getElementById('ck-slipf').click()">
+              <div style="font-size:26px">📷</div>
+              <div style="font-size:13px;font-weight:700;margin-top:4px">ກົດ Upload Slip</div>
+              <img id="ck-slipp" src="" style="max-width:100%;max-height:150px;border-radius:8px;margin-top:8px;display:none">
+            </div>
+            <input type="file" id="ck-slipf" accept="image/*" style="display:none" onchange="cPrevSlip(this)">
+          </div>
+        </div>
+        <div class="fg"><label>📝 ໝາຍເຫດ</label><textarea id="ck-note" rows="2" placeholder="ໝາຍເຫດ..." style="width:100%;padding:9px 12px;border:1.5px solid var(--br);border-radius:8px;font-size:13px;background:var(--inp);color:var(--tx);resize:vertical"></textarea></div>
+      </div>
+      <div class="drf">
+        <div id="ck-err" style="color:var(--d);font-size:12px;margin-bottom:7px;display:none"></div>
+        <button class="btn btn-p" id="ck-sbtn" style="width:100%;padding:13px" onclick="cSubmit()">✅ ສ່ງຄຳສັ່ງ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success -->
+  <div class="sscrn" id="c-sscr">
+    <div style="font-size:50px;margin-bottom:7px">🎉</div>
+    <div style="font-size:17px;font-weight:800;color:var(--p);margin-bottom:3px">ສ່ງສຳເລັດ!</div>
+    <div style="font-size:12px;color:var(--sub);margin-bottom:14px">Screenshot ເກັບໄວ້!</div>
+    <div class="billcard" id="c-bill">
+      <div style="text-align:center;border-bottom:2px dashed rgba(var(--p3),.2);padding-bottom:11px;margin-bottom:11px">
+        <div style="font-weight:800;font-size:14px;color:var(--p)" id="c-bill-sn"></div>
+        <div style="font-size:11px;color:var(--sub)">ໃບບິນສັ່ງຊື້</div>
+      </div>
+      <div style="text-align:center;background:rgba(var(--p3),.06);border-radius:9px;padding:9px;margin-bottom:11px">
+        <div style="font-size:11px;color:var(--sub)">ລະຫັດ</div>
+        <div id="c-bill-code" style="font-size:19px;font-weight:800;color:var(--p);letter-spacing:2px"></div>
+        <div id="c-bill-time" style="font-size:11px;color:var(--sub);margin-top:2px"></div>
+      </div>
+      <div id="c-bill-info" style="border-bottom:1px dashed rgba(var(--p3),.2);padding-bottom:11px;margin-bottom:11px;font-size:12px"></div>
+      <div id="c-bill-items" style="border-bottom:1px dashed rgba(var(--p3),.2);padding-bottom:11px;margin-bottom:11px"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <span style="font-size:14px;font-weight:700">ລວມ:</span>
+        <span id="c-bill-tot" style="font-size:18px;font-weight:800;color:var(--p)"></span>
+      </div>
+      <div style="background:#fff3cd;border:1.5px solid #ffc107;border-radius:9px;padding:11px;margin-bottom:11px;font-size:11px;color:#856404">
+        ⚠️ <b>Screenshot</b> ເກັບໄວ້ · ຖ້າ 1-2 ມື້ ຍັງບໍ່ Update ກະລຸນາຕິດຕໍ່ຮ້ານ
+      </div>
+      <div style="display:flex;gap:7px">
+        <a id="c-bill-wa" href="#" target="_blank" style="flex:1;display:flex;align-items:center;justify-content:center;gap:5px;background:#25d366;color:#fff;border-radius:9px;padding:9px;font-size:12px;font-weight:700;text-decoration:none">💬 WhatsApp</a>
+        <a id="c-bill-fb" href="#" target="_blank" style="flex:1;display:flex;align-items:center;justify-content:center;gap:5px;background:#1877f2;color:#fff;border-radius:9px;padding:9px;font-size:12px;font-weight:700;text-decoration:none">📘 Facebook</a>
+      </div>
+    </div>
+    <div style="display:flex;gap:7px;margin-top:12px">
+      <button class="btn btn-p" style="flex:1;padding:12px" onclick="cReset()">🛒 ສັ່ງຕໍ່</button>
+      <button class="btn btn-gh" style="flex:1;padding:12px" onclick="cGoSt()">📦 ສະຖານະ</button>
+    </div>
+  </div>
+
+  <!-- Image viewer -->
+  <div class="ivw" id="c-ivw" onclick="cCloseIv(event)">
+    <button class="ivc" onclick="cCloseIvBtn()">✕</button>
+    <img id="c-ivi" src="" alt="">
+    <div id="c-ivn" style="color:rgba(255,255,255,.85);font-size:13px;margin-top:7px;text-align:center"></div>
+    <div id="c-ivp" style="color:var(--s);font-size:14px;font-weight:700;margin-top:3px"></div>
+    <div style="display:flex;gap:9px;align-items:center;margin-top:10px">
+      <button class="ivnav" onclick="cIvNav(-1)">‹</button>
+      <span id="c-ivc" style="color:rgba(255,255,255,.6);font-size:12px"></span>
+      <button class="ivnav" onclick="cIvNav(1)">›</button>
+    </div>
+    <button id="c-iv-add" onclick="cIvAdd()" style="margin-top:11px;background:var(--p);color:#fff;border:none;padding:11px 30px;border-radius:25px;font-size:13px;font-weight:700;cursor:pointer">🛒 ເພີ່ມ</button>
+  </div>
+</div><!-- end #apc -->
+<!-- ADMIN APP -->
+<div id="apa">
+  <div class="ahdr" id="ahdr">
+    <div class="ahdr-top">
+      <img class="algo" id="a-logo" src="" onclick="aNav(0)" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 60 60%22%3E%3Ccircle cx=%2230%22 cy=%2230%22 r=%2230%22 fill=%22%23D6377E%22/%3E%3C/svg%3E'">
+      <div style="flex:1;min-width:0">
+        <div id="a-sn" style="font-weight:700;font-size:15px"></div>
+        <div id="a-clk" style="font-size:10px;opacity:.85;margin-top:1px"></div>
+      </div>
+      <button onclick="aLogout()" style="background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:5px 11px;font-size:11px;cursor:pointer;flex-shrink:0">ອອກຈາກລະບົບ</button>
+    </div>
+  </div>
+
+  <!-- P0: Dashboard -->
+  <div id="ap0" class="apg on">
+    <div class="sgrid">
+      <div class="scard"><div class="sv" id="ds-o">—</div><div class="sl">ຈຳນວນອໍເດີ</div></div>
+      <div class="scard"><div class="sv" id="ds-s">—</div><div class="sl">ຍອດຂາຍ ₭</div></div>
+      <div class="scard"><div class="sv" id="ds-p" style="color:var(--s)">—</div><div class="sl">ກຳໄລ ₭</div></div>
+    </div>
+    <div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:9px">📈 ຍອດ 30 ວັນ</div><div style="height:170px"><canvas id="a-ch"></canvas></div></div>
+    <div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:9px">🧾 ບິນວັນນີ້</div><div id="a-tbd"><div class="empty">ຍັງບໍ່ມີ</div></div></div>
+  </div>
+
+  <!-- P1: Orders -->
+  <div id="ap1" class="apg">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px">
+        <b style="font-size:13px">📋 ລາຍການອໍເດີລູກຄ້າ</b>
+        <div style="display:flex;gap:5px">
+          <button class="btn btn-p btn-sm" onclick="aLoadOrders()">🔄 ໂຫຼດໃໝ່</button>
+          <button class="btn btn-gh btn-sm" onclick="aPrintAll()">🖨️ ພີ່ມທັງໝົດ</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:5px;margin-bottom:7px;flex-wrap:wrap">
+        <input type="date" id="a-odate" style="flex:1;min-width:115px;padding:6px 8px;border:1px solid var(--br);border-radius:6px;font-size:12px;background:var(--inp);color:var(--tx)" onchange="aFiltOrd()">
+        <button class="btn btn-gh btn-sm" onclick="document.getElementById('a-odate').value='';aFiltOrd()">ທຸກວັນ</button>
+        <button class="btn btn-p btn-sm" onclick="aOrdToday()">ມື້ນີ້</button>
+      </div>
+      <div class="ofr">
+        <input type="text" id="a-osch" placeholder="🔍 ຄົ້ນຫາ..." style="flex:1;min-width:110px;padding:5px 9px;border:1px solid var(--br);border-radius:20px;font-size:12px;background:var(--inp);color:var(--tx)" oninput="aFiltOrd()">
+        <button class="fb on" onclick="aFiltSt('',this)">ທັງໝົດ</button>
+        <button class="fb" onclick="aFiltSt('ລໍຖ້າຮັບຍອດ',this)">ລໍຖ້າ</button>
+        <button class="fb" onclick="aFiltSt('ແມ່ຄ້າຮັບຍອດແລ້ວ',this)">ຮັບຍອດ</button>
+        <button class="fb" onclick="aFiltSt('ກຳລັງກຽມການຈັດສົ່ງ',this)">ກຽມສົ່ງ</button>
+        <button class="fb" onclick="aFiltSt('ຈັດສົ່ງສຳເລັດ',this)">ສົ່ງແລ້ວ</button>
+      </div>
+      <div id="a-ocnt" style="font-size:11px;color:var(--sub);margin-bottom:7px"></div>
+      <div id="a-osb" class="osb" style="display:none">
+        <div><div style="font-weight:700;font-size:14px;color:var(--p)" id="os-t">0</div><div style="font-size:10px;color:var(--sub)">ທັງໝົດ</div></div>
+        <div><div style="font-weight:700;font-size:14px;color:var(--w)" id="os-w">0</div><div style="font-size:10px;color:var(--sub)">ລໍຖ້າ</div></div>
+        <div><div style="font-weight:700;font-size:14px;color:var(--g)" id="os-d">0</div><div style="font-size:10px;color:var(--sub)">ສົ່ງແລ້ວ</div></div>
+        <div><div style="font-weight:700;font-size:14px;color:var(--p)" id="os-a">0₭</div><div style="font-size:10px;color:var(--sub)">ຍອດລວມ</div></div>
+      </div>
+      <div id="a-olist"><div class="empty"><div class="eic">📋</div>ກົດ 🔄 ໂຫຼດ</div></div>
+    </div>
+  </div>
+
+  <!-- P2: Stock -->
+  <div id="ap2" class="apg">
+    <div class="card">
+      <div style="font-size:13px;font-weight:700;margin-bottom:11px">➕ ເພີ່ມສິນຄ້າ</div>
+      <div class="fg"><label>ຊື່ *</label><input type="text" id="p-name" placeholder="ຊື່ສິນຄ້າ"></div>
+      <div class="frow">
+        <div class="fg"><label>ທຶນ ₭</label><input type="number" id="p-cost" placeholder="0"></div>
+        <div class="fg"><label>ຂາຍ ₭</label><input type="number" id="p-price" placeholder="0"></div>
+      </div>
+      <div class="frow">
+        <div class="fg"><label>ຈຳນວນ *</label><input type="number" id="p-qty" placeholder="0"></div>
+        <div class="fg"><label>Link ຮູບ</label><input type="url" id="p-img" placeholder="Drive URL"></div>
+      </div>
+      <div style="display:flex;gap:7px;margin-top:4px">
+        <button class="btn btn-gh btn-sm" onclick="aPrevImg()">👁️</button>
+        <button class="btn btn-p" style="flex:1" onclick="aSaveP()">💾 ເພີ່ມ</button>
+      </div>
+      <div id="p-imgprev" style="display:none;margin-top:7px"><img id="p-imgt" src="" style="width:60px;height:60px;object-fit:cover;border-radius:8px;border:2px solid var(--p)"></div>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px">
+        <b style="font-size:13px">📦 ລາຍການສິນຄ້າໃນຄັງ</b>
+        <button class="btn btn-gh btn-sm" onclick="aLoadStk()">🔄 ໂຫຼດໃໝ່</button>
+      </div>
+      <div id="a-stklist"><div class="ldc"><div class="spin"></div></div></div>
+    </div>
+  </div>
+
+  <!-- P3: POS -->
+  <div id="ap3" class="apg" style="padding:0">
+    <div class="posl">
+      <div class="posl-l">
+        <div class="posl-lh">
+          <div style="font-size:12px;font-weight:700;margin-bottom:4px">🛒 ສິນຄ້າ</div>
+          <input type="text" id="pos-sch" placeholder="🔍 ຄົ້ນຫາ..." oninput="posF()" style="width:100%;padding:6px 9px;border:1px solid var(--br);border-radius:20px;font-size:12px;background:var(--inp);color:var(--tx)">
+        </div>
+        <div class="possc"><div id="pos-gr" class="posgr"><div style="grid-column:1/-1" class="ldc"><div class="spin"></div></div></div></div>
+      </div>
+      <div class="posl-r">
+        <div class="posl-rs">
+          <div class="pcust">
+            <h4>👤 ລູກຄ້າ</h4>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:4px">
+              <input type="text" id="pc-nm" placeholder="ຊື່" style="padding:5px 7px;border:1px solid var(--br);border-radius:6px;font-size:11px;background:var(--inp);color:var(--tx)">
+              <input type="tel"  id="pc-ph" placeholder="ເບີ" style="padding:5px 7px;border:1px solid var(--br);border-radius:6px;font-size:11px;background:var(--inp);color:var(--tx)">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:4px">
+              <select id="pc-pv" style="padding:5px 6px;border:1px solid var(--br);border-radius:6px;font-size:11px;background:var(--inp);color:var(--tx)"><option value="">ແຂວງ</option></select>
+              <input type="text" id="pc-ad" placeholder="ທີ່ຢູ່" style="padding:5px 7px;border:1px solid var(--br);border-radius:6px;font-size:11px;background:var(--inp);color:var(--tx)">
+            </div>
+            <div id="pos-ships" style="background:rgba(var(--p3),.05);border:1px solid rgba(var(--p3),.18);border-radius:6px;padding:5px;">
+              <div style="font-size:10px;font-weight:700;color:var(--p);margin-bottom:3px">🚚 ຂົນສົ່ງ</div>
+            </div>
+          </div>
+          <div class="psel" id="pos-sel">
+            <div id="pos-seln" style="font-weight:700;color:var(--p);margin-bottom:4px;font-size:12px"></div>
+            <div id="pos-selst" style="font-size:11px;margin-bottom:4px"></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+              <input type="number" id="pos-qty" value="1" min="1" style="padding:6px;border:1px solid var(--br);border-radius:6px;font-size:12px;background:var(--inp);color:var(--tx)">
+              <input type="number" id="pos-disc" placeholder="ສ່ວນຫຼຸດ" style="padding:6px;border:1px solid var(--br);border-radius:6px;font-size:12px;background:var(--inp);color:var(--tx)">
+            </div>
+            <input type="text" id="pos-note" placeholder="ໝາຍເຫດ" style="width:100%;margin-top:4px;padding:6px;border:1px solid var(--br);border-radius:6px;font-size:12px;background:var(--inp);color:var(--tx)">
+            <button class="btn btn-p" style="width:100%;margin-top:5px;padding:7px" onclick="posAdd()">+ ເພີ່ມ</button>
+          </div>
+          <div class="pcrt" id="pos-cart" style="display:none">
+            <div style="font-size:12px;font-weight:700;margin-bottom:5px">📝 ລາຍການ</div>
+            <div id="pos-clist"></div>
+            <div style="text-align:right;font-weight:700;font-size:13px;margin:6px 0;color:var(--p)">ລວມ: <span id="pos-ctot">0</span> ₭</div>
+            <div style="display:flex;gap:5px">
+              <button class="btn btn-gh btn-sm" style="flex:1" onclick="posPrint()">🖨️ ພີ່ມໃບບິນ</button>
+              <button class="btn btn-p btn-sm" style="flex:1" onclick="posSub()">✅ ບັນທຶກການຂາຍ</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- P4: Report -->
+  <div id="ap4" class="apg">
+    <div class="card">
+      <div style="font-size:13px;font-weight:700;margin-bottom:9px">📊 ສະຫຼຸບລາຍງານການຂາຍ</div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px">
+        <input type="date" id="r-fr" style="flex:1;min-width:120px;padding:6px;border:1px solid var(--br);border-radius:6px;font-size:12px;background:var(--inp);color:var(--tx)">
+        <input type="date" id="r-to" style="flex:1;min-width:120px;padding:6px;border:1px solid var(--br);border-radius:6px;font-size:12px;background:var(--inp);color:var(--tx)">
+      </div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px">
+        <button class="btn btn-p btn-sm" onclick="aRepRange('today')">ມື້ນີ້</button>
+        <button class="btn btn-gh btn-sm" onclick="aRepRange('week')">7 ວັນ</button>
+        <button class="btn btn-gh btn-sm" onclick="aRepRange('month')">30 ວັນ</button>
+        <button class="btn btn-gh btn-sm" onclick="aRepRange('all')">ທັງໝົດ</button>
+      </div>
+      <div class="kgrid">
+        <div class="kpi" style="background:rgba(52,152,219,.07);border-color:rgba(52,152,219,.3)"><b id="r-o" style="color:var(--b)">0</b><span>ຈຳນວນລາຍການ</span></div>
+        <div class="kpi" style="background:rgba(var(--p3),.07);border-color:rgba(var(--p3),.3)"><b id="r-s" style="color:var(--p)">0₭</b><span>ຍອດຂາຍລວມ</span></div>
+        <div class="kpi" style="background:rgba(231,76,60,.07);border-color:rgba(231,76,60,.3)"><b id="r-c" style="color:var(--d)">0₭</b><span>ຕົ້ນທຶນລວມ</span></div>
+        <div class="kpi" style="background:rgba(244,143,177,.1);border-color:rgba(244,143,177,.3)"><b id="r-p" style="color:var(--s)">0₭</b><span>ກຳໄລລວມ</span></div>
+      </div>
+    </div>
+    <div class="card"><b style="font-size:13px">🏪 ສະຫຼຸບຕໍ່ສິນຄ້າ</b><div id="r-ptbl" style="margin-top:9px;overflow-x:auto"></div></div>
+    <div class="card">
+      <b style="font-size:13px">🧾 ທຸກລາຍການບິນ</b>
+      <input type="text" id="r-sch" placeholder="🔍 ຄົ້ນຫາ ຊື່ / ສິນຄ້າ..." style="width:100%;margin:7px 0;padding:6px 9px;border:1px solid var(--br);border-radius:6px;font-size:12px;background:var(--inp);color:var(--tx)" oninput="aRepFil()">
+      <div id="r-bills"></div>
+    </div>
+  </div>
+
+  <!-- P5: History -->
+  <div id="ap5" class="apg">
+    <div class="card">
+      <div style="display:flex;gap:5px;margin-bottom:9px">
+        <button id="hb1" class="btn btn-p" style="flex:1;padding:8px" onclick="aHis(1)">💰 ປະຫວັດການຂາຍ</button>
+        <button id="hb2" class="btn btn-gh" style="flex:1;padding:8px" onclick="aHis(2)">📦 ປະຫວັດສະຕ໋ອກ</button>
+      </div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px">
+        <input type="date" id="h-dt" style="flex:1;min-width:120px;padding:6px;border:1px solid var(--br);border-radius:6px;font-size:12px;background:var(--inp);color:var(--tx)">
+        <input type="text" id="h-sch" placeholder="🔍 ຄົ້ນຫາ ຊື່ / ສິນຄ້າ..." style="flex:1;min-width:100px;padding:6px;border:1px solid var(--br);border-radius:6px;font-size:12px;background:var(--inp);color:var(--tx)" oninput="aRenHis(aCurH)">
+      </div>
+      <div style="display:flex;gap:5px;margin-bottom:9px">
+        <button class="btn btn-p btn-sm" style="flex:1" onclick="aHisF()">🔍 ຄົ້ນຫາ</button>
+        <button class="btn btn-gh btn-sm" style="flex:1" onclick="aHisClr()">✕ ລ້າງຟີລເຕີ</button>
+      </div>
+      <div id="h-con"></div>
+    </div>
+  </div>
+
+  <!-- P6: Settings -->
+  <div id="ap6" class="apg">
+    <div class="setsec">
+      <h4>🏪 ຂໍ້ມູນຮ້ານ</h4>
+      <div class="setr"><label>ຊື່ຮ້ານ</label><input type="text" id="set-nm"></div>
+      <div class="setr"><label>ລິ້ງໂລໂກ້</label><input type="url" id="set-logo"></div>
+      <div class="setr"><label>ລິ້ງ QR ຊຳລະ</label><input type="url" id="set-qr"></div>
+      <div class="setr"><label>ລະຫັດຜ່ານ</label><input type="text" id="set-pwd"></div>
+    </div>
+    <div class="setsec">
+      <h4>🎨 ສີ ແລະ ໜ້າຕາ</h4>
+      <div class="setr"><label>ສີຫຼັກ</label><input type="color" id="set-col" value="#D6377E" onchange="aApplyCol(this.value)"></div>
+      <div class="csws" id="csws"></div>
+      <div class="setr" style="margin-top:9px"><label>ໂໝດມືດ (Dark)</label><label class="tgl"><input type="checkbox" id="set-dk" onchange="aDark(this.checked)"><span class="sldr"></span></label></div>
+    </div>
+    <div class="setsec">
+      <h4>📢 ຂໍ້ຄວາມ Ticker ຄ້ວນ</h4>
+      <textarea id="set-tick" rows="3" style="width:100%;padding:8px;border:1.5px solid var(--br);border-radius:8px;font-size:12px;background:var(--inp);color:var(--tx)" placeholder="ຂໍ້ຄວາມ Ticker..."></textarea>
+      <div style="display:flex;gap:6px;margin-top:6px">
+        <button class="btn btn-gh btn-sm" style="flex:1" onclick="aLoadBanner()">🔄 ໂຫຼດຈາກ Server</button>
+        <button class="btn btn-p btn-sm" style="flex:1" onclick="aSaveBanner()">💾 ບັນທຶກ Ticker</button>
+      </div>
+    </div>
+    <button class="btn btn-p" style="width:100%;padding:13px;margin-bottom:28px" onclick="aSaveSet()">💾 ບັນທຶກການຕັ້ງຄ່າທັງໝົດ</button>
+  </div>
+
+  <!-- Admin Nav -->
+  <div class="anav">
+    <div class="ani on" onclick="aNav(0)"><div class="ic">🏠</div>ໜ້າຫຼັກ</div>
+    <div class="ani" onclick="aNav(1);aLoadOrders()"><div class="ic">📋</div>ອໍເດີ</div>
+    <div class="ani" onclick="aNav(2);aLoadStk()"><div class="ic">📦</div>ສິນຄ້າ</div>
+    <div class="ani" onclick="aNav(3);posLoad()"><div class="ic">🛒</div>ຂາຍ POS</div>
+    <div class="ani" onclick="aNav(4);aLoadRep()"><div class="ic">📊</div>ລາຍງານ</div>
+    <div class="ani" onclick="aNav(5);aLoadHis()"><div class="ic">📜</div>ປະຫວັດ</div>
+    <div class="ani" onclick="aNav(6);aLoadSet()"><div class="ic">⚙️</div>ຕັ້ງຄ່າ</div>
+  </div>
+
+  <!-- Notif -->
+  <div class="nbd" id="nbd" onclick="aReopenN()">🛒<span id="ncnt" style="font-size:10px;font-weight:700"></span></div>
+  <div class="nov" id="nov">
+    <div class="nbox">
+      <div style="font-size:30px;margin-bottom:7px">🛒</div>
+      <div style="font-size:17px;font-weight:700;color:var(--p);margin-bottom:6px">ມີ Order ໃໝ່!</div>
+      <div id="nlist" style="max-height:170px;overflow-y:auto;margin:9px 0;text-align:left"></div>
+      <div style="display:flex;gap:7px;flex-direction:column">
+        <button class="btn btn-p" style="width:100%;padding:10px" onclick="aViewN()">📋 ໄປໜ້າອໍເດີ</button>
+        <button class="btn btn-gh" style="width:100%;padding:8px;font-size:12px" onclick="aSnooze()">🔕 ປິດຊົ່ວຄາວ 5 ນາທີ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modals -->
+  <div class="mov" id="a-stkm">
+    <div class="mbox">
+      <div class="mhdr"><div class="mttl" id="a-stkmt">ສິນຄ້າ</div><button class="xcl" onclick="aMClose('a-stkm')">✕</button></div>
+      <div style="text-align:center;margin-bottom:9px"><img id="a-mi" src="" style="width:84px;height:84px;object-fit:cover;border-radius:9px;border:3px solid var(--p);background:#f0f0f0"></div>
+      <div class="mtabs">
+        <button id="mt-e" class="mtab on" onclick="aStkT('e')">✏️ ແກ້ໄຂ</button>
+        <button id="mt-a" class="mtab" onclick="aStkT('a')">➕ ເຕີມສະຕ໋ອກ</button>
+        <button id="mt-d" class="mtab" onclick="aStkT('d')">🗑️ ລຶບ</button>
+      </div>
+      <div id="mt-ec">
+        <div class="frow"><div class="fg"><label>ຊື່</label><input type="text" id="m-nm"></div><div class="fg"><label>ຈຳ</label><input type="number" id="m-qt"></div></div>
+        <div class="frow"><div class="fg"><label>ທຶນ</label><input type="number" id="m-cs"></div><div class="fg"><label>ຂາຍ</label><input type="number" id="m-pr"></div></div>
+        <div class="fg"><label>ຮູບ</label><div style="display:flex;gap:5px"><input type="url" id="m-im" style="flex:1"><button onclick="aPMImg()" class="btn btn-gh btn-sm">👁️</button></div></div>
+        <button class="btn btn-p" style="width:100%;margin-top:6px" onclick="aStkES()">💾 ບັນທຶກການແກ້ໄຂ</button>
+      </div>
+      <div id="mt-ac" style="display:none">
+        <div style="background:rgba(var(--p3),.07);border-radius:8px;padding:9px;margin-bottom:9px;font-size:12px">ສິນຄ້າ: <b id="m-an"></b> · ຄົງ: <b id="m-aq" style="color:var(--p)"></b></div>
+        <div class="fg"><label>ຈຳນວນທີ່ຈະເຕີມ</label><input type="number" id="m-aqa" value="1" min="1"></div>
+        <button class="btn btn-ok" style="width:100%" onclick="aStkAS()">➕ ເຕີມສະຕ໋ອກ</button>
+      </div>
+      <div id="mt-dc" style="display:none">
+        <div style="background:rgba(231,76,60,.06);border:1.5px solid var(--d);border-radius:8px;padding:12px;text-align:center;margin-bottom:11px">
+          <div style="font-size:20px">⚠️</div>
+          <div style="font-weight:700;color:var(--d);margin-top:4px">ຢືນຢັນລຶບ: <span id="m-dn"></span>?</div>
+        </div>
+        <div style="display:flex;gap:7px">
+          <button class="btn btn-gh" style="flex:1" onclick="aMClose('a-stkm')">ຍົກເລີກ</button>
+          <button class="btn btn-dg" style="flex:1" onclick="aStkDS()">🗑️ ລຶບ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mov" id="a-imgm">
+    <div class="mbox" style="text-align:center">
+      <div class="mhdr"><div class="mttl" id="a-imgmt">ຮູບ</div><button class="xcl" onclick="aMClose('a-imgm')">✕</button></div>
+      <img id="a-imgsrc" src="" style="max-width:100%;max-height:62vh;border-radius:10px">
+      <a id="a-imglink" href="#" target="_blank" style="display:block;margin-top:7px;font-size:12px;color:var(--b)">🔗 ເປີດ</a>
+    </div>
+  </div>
+
+  <div class="mov" id="a-billm">
+    <div class="mbox">
+      <div class="mhdr"><div class="mttl">🧾 ລາຍລະອຽດ</div><button class="xcl" onclick="aMClose('a-billm')">✕</button></div>
+      <div id="a-billmc"></div>
+    </div>
+  </div>
+</div><!-- end #apa -->
+
+<!-- Success Popup -->
+<div class="spov" id="spov" onclick="spClose(event)">
+  <div class="spbox" id="spbox">
+    <div class="sphead" id="sphead">
+      <div class="sp-confetti" id="sp-confetti"></div>
+      <span class="sphead-icon" id="sp-icon">✅</span>
+      <div class="sphead-title" id="sp-title">ສຳເລັດ!</div>
+      <div class="sphead-sub"  id="sp-sub"></div>
+    </div>
+    <div class="spbody" id="sp-body"></div>
+    <div class="spfoot">
+      <button class="sp-close" onclick="spHide()">ປິດ</button>
+      <button class="sp-ok"   id="sp-ok-btn" onclick="spHide()">ຕົກລົງ</button>
+    </div>
+  </div>
+</div>
+
+<!-- Dialog -->
+<div class="dov" id="dov">
+  <div class="dbox">
+    <div class="dico" id="dico"></div>
+    <div class="dttl" id="dttl"></div>
+    <div class="dmsg" id="dmsg"></div>
+    <input type="text" class="dinp" id="dinp" style="display:none">
+    <div class="dbtns"><button id="dno">ຍົກ</button><button id="dok">ຢືນ</button></div>
+  </div>
+</div>
+<script>
+// ================================================================
+// CONFIG — Orla Skin Official
+// ================================================================
+const CFG={
+  shopName:"Orla Skin Official",
+  shopSlogan:"ຜິວກະຈ່າງໃສ ທຳມະຊາດ · ດູແລງ່າຍ · ໝັ້ນໃຈທຸກມື້",
+  logoUrl:"https://drive.google.com/thumbnail?id=1uZ07HjYD7jANYbD7B9VlN4FMhRVJssaZ&sz=w300",
+  primaryColor:"#D6377E",
+  adminPwd:"orla2026",
+  apiUrl:"ໃສ່_WebApp_URL_ຈາກ_Code.gs_ຂອງທ່ານ_ຫຼັງ_Deploy",
+  qrUrl:"https://drive.google.com/thumbnail?id=1uZ07HjYD7jANYbD7B9VlN4FMhRVJssaZ&sz=w600",
+  bankInfo:"BCEL One: 140-12-00-00040941-001",
+  social:{
+    facebook:{url:"https://www.facebook.com/orlaskinofficial",name:"Orla Skin Official"},
+    whatsapp:{url:"https://wa.me/85602096631028",name:"020 9663 1028"},
+    tiktok:{url:"https://www.tiktok.com/@orlaskin",name:"@orlaskin"}
+  },
+  shipping:[
+    {value:"ອານຸສິດ",label:"✈️ ອານຸສິດ"},
+    {value:"ຮຸ່ງອາລຸນ",label:"🚌 ຮຸ່ງອາລຸນ"},
+    {value:"ມີໄຊ",label:"🏍️ ມີໄຊ"}
+  ],
+  payment:[
+    {value:"ໂອນຈ່າຍ",icon:"💳",label:"ໂອນຈ່າຍ",desc:"BCEL One / QR",slip:true},
+    {value:"COD",icon:"💵",label:"COD ຈ່າຍປາຍທາງ",desc:"ສະເພາະຂົນສົ່ງ ອານຸສິດ",slip:false}
+  ],
+  marquee:["✅ Orla Skin ຂອງແທ້ 100%","🚚 ສົ່ງທົ່ວລາວ","💳 ຮັບໂອນ BCEL One","📱 WhatsApp/TikTok ໄດ້ຕະຫຼອດ"],
+  districts:{
+    "ວຽງຈັນ (ນະຄອນ)":["ຈັນທະບູລີ","ໄຊເສດຖາ","ສີໂຄດຕະບອງ","ສີສັດຕະນາກ","ຫາດຊາຍຟອງ","ນາຊາຍທອງ","ໄຊທານີ","ສັງທອງ"],
+    "ວຽງຈັນ (ແຂວງ)":["ໂພນໂຮງ","ທຸລະຄົມ","ກາສີ","ວັງວຽງ","ຫີນເຫີບ","ວຽງຄຳ"],
+    "ຫຼວງພະບາງ":["ຫຼວງພະບາງ","ຊຽງເງິນ","ນານ","ປາກອູ"],
+    "ສະຫວັນນະເຂດ":["ໄກສອນ ພົມວິຫານ","ອຸທຸມພອນ","ພິນ","ເຊໂປນ"],
+    "ຈຳປາສັກ":["ປາກເຊ","ຊະນາສົມບູນ","ປາກຊ່ອງ","ໂຂງ"],
+    "ຄຳມ່ວນ":["ທ່າແຂກ","ມະຫາໄຊ","ໜອງບົກ"],
+    "ສາລະວັນ":["ສາລະວັນ","ລະຄອນເພັງ","ວາປີ"],
+    "ອຸດົມໄຊ":["ໄຊ","ຫລາ","ນາໝໍ້"],
+    "ຫຼວງນໍ້າທາ":["ຫຼວງນໍ້າທາ","ສິງ","ລອງ"],
+    "ບໍ່ແກ້ວ":["ຫ້ວຍຊາຍ","ຕົ້ນເຜິ້ງ","ເມິງ"],
+    "ຜົ້ງສາລີ":["ຜົ້ງສາລີ","ຍອດອູ"],
+    "ຫົວພັນ":["ຊຳເໜືອ","ຊຽງຄໍ້","ວຽງໄຊ"],
+    "ໄຊຍະບູລີ":["ໄຊຍະບູລີ","ຫົງສາ","ແກ່ນທ້າວ"],
+    "ຊຽງຂວາງ":["ແປກ","ຄຳ","ໜອງແຮດ"],
+    "ອັດຕະປື":["ໄຊເສດຖາ","ສາມັກຄີໄຊ"],
+    "ເຊກອງ":["ທ່າແຕງ","ລະມາມ"],
+    "ໄຊສົມບູນ":["ລ້ອງແຈ້ງ","ທ່າໂທມ"],
+    "ບໍລິຄຳໄຊ":["ປາກຊັນ","ທ່າພະບາດ"],
+  }
+};
+
+// ── Utils ──
+const noImg="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='55%25' text-anchor='middle' fill='%23bbb' font-size='10'%3Eບໍ່ມີ%3C/text%3E%3C/svg%3E";
+const fN=n=>Number(n||0).toLocaleString();
+const p2=n=>String(n).padStart(2,"0");
+function gid(u){if(!u)return"";const m1=String(u).match(/\/d\/([a-zA-Z0-9_-]{10,})/);if(m1)return m1[1];const m2=String(u).match(/[?&]id=([a-zA-Z0-9_-]{10,})/);if(m2)return m2[1];return"";}
+function gimg(u){if(!u)return"";const id=gid(u);return id?"https://lh3.googleusercontent.com/d/"+id:u;}
+function gthumb(u,s=400){const id=gid(u);return id?`https://drive.google.com/thumbnail?id=${id}&sz=w${s}`:(u||"");}
+function toYMD(r){
+  if(!r)return"";
+  const s=String(r);
+  const m0=s.match(/^(\d{4})-(\d{2})-(\d{2})T/);if(m0)return`${m0[1]}-${m0[2]}-${m0[3]}`;
+  const m1=s.match(/^(\d{4})-(\d{2})-(\d{2})/);if(m1)return`${m1[1]}-${m1[2]}-${m1[3]}`;
+  const m2=s.match(/^(\d{2})\/(\d{2})\/(\d{4})/);if(m2)return`${m2[3]}-${m2[2]}-${m2[1]}`;
+  const m3=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);if(m3)return`${m3[3]}-${p2(m3[2])}-${p2(m3[1])}`;
+  return s.slice(0,10);
+}
+function fmtD(r){const y=toYMD(r);if(!y)return String(r||"");const p=y.split("-");return`${p[2]}/${p[1]}/${p[0]}`;}
+function todY(){const n=new Date();return`${n.getFullYear()}-${p2(n.getMonth()+1)}-${p2(n.getDate())}`;}
+
+async function api(body){
+  const res=await fetch(lsGet().apiUrl||CFG.apiUrl,{method:"POST",redirect:"follow",headers:{"Content-Type":"text/plain"},body:JSON.stringify(body)});
+  const j=JSON.parse(await res.text());
+  if(j&&j.status==="error")throw new Error(j.message||"API Error");
+  return j.data!==undefined?j.data:j;
+}
+async function apiG(action){
+  const res=await fetch((lsGet().apiUrl||CFG.apiUrl)+"?action="+action,{method:"GET",redirect:"follow"});
+  const j=JSON.parse(await res.text());
+  if(j&&j.status==="error")throw new Error(j.message||"API Error");
+  return j.data!==undefined?j.data:j;
+}
+
+// Toast
+function toast(tp,title,msg,ms=3200){
+  const ic={ok:"✅",err:"❌",warn:"⚠️",info:"ℹ️"};
+  const cl={ok:"var(--g)",err:"var(--d)",warn:"var(--w)",info:"var(--b)"};
+  const root=document.getElementById("tr");
+  const el=document.createElement("div");el.className="toast";el.style.position="relative";el.style.overflow="hidden";
+  el.innerHTML=`<span style="font-size:17px">${ic[tp]||"📢"}</span><div><div style="font-size:12px;font-weight:700;color:var(--tx)">${title}</div>${msg?`<div style="font-size:11px;color:var(--sub)">${msg}</div>`:""}</div><div class="tbar" style="background:${cl[tp]}"></div>`;
+  root.appendChild(el);requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add("on")));
+  setTimeout(()=>{el.style.opacity="0";setTimeout(()=>el.remove(),350);},ms);
+}
+
+// Dialog
+function showDlg(o){
+  return new Promise(res=>{
+    const ov=document.getElementById("dov");
+    document.getElementById("dico").textContent=o.icon||"❓";
+    document.getElementById("dttl").textContent=o.title||"";
+    document.getElementById("dmsg").textContent=o.msg||"";
+    const inp=document.getElementById("dinp"),ok=document.getElementById("dok"),no=document.getElementById("dno");
+    inp.style.display=o.type==="prompt"?"block":"none";
+    if(o.type==="prompt"){inp.value=o.def||"";inp.placeholder=o.ph||"";setTimeout(()=>inp.focus(),150);}
+    no.style.display=o.type==="alert"?"none":"block";
+    ok.style.background=o.okC||"var(--p)";ok.textContent=o.okT||"ຢືນຢັນ";no.textContent=o.noT||"ຍົກເລີກ";
+    ov.classList.add("on");
+    const done=v=>{ov.classList.remove("on");res(v);};
+    ok.onclick=()=>done(o.type==="prompt"?inp.value:true);
+    no.onclick=()=>done(o.type==="prompt"?null:false);
+    ov.onclick=e=>{if(e.target===ov)done(o.type==="prompt"?null:false);};
+    inp.onkeydown=e=>{if(e.key==="Enter")done(inp.value);};
+  });
+}
+const dlgC=(t,m,ic,oc)=>showDlg({icon:ic||"⚠️",title:t,msg:m,okC:oc||"var(--d)",type:"confirm"});
+const dlgP=(t,m,d,ph)=>showDlg({icon:"✏️",title:t,msg:m,def:d,ph,type:"prompt"});
+
+// LocalStorage
+const LSKEY="orla_skin_v1";
+function lsGet(){try{return JSON.parse(localStorage.getItem(LSKEY)||"{}");}catch{return{};}}
+function lsSave(o){try{localStorage.setItem(LSKEY,JSON.stringify(o));}catch{}}
+
+function applyCol(c){
+  document.documentElement.style.setProperty("--p",c);
+  const r=parseInt(c.slice(1,3),16),g=parseInt(c.slice(3,5),16),b=parseInt(c.slice(5,7),16);
+  document.documentElement.style.setProperty("--p3",`${r},${g},${b}`);
+  document.querySelectorAll(".chdr,.ahdr").forEach(el=>el.style.background=c);
+}
+
+// ── Boot ──
+document.addEventListener("DOMContentLoaded",()=>{
+  const s=lsGet();
+  applyCol(s.primaryColor||CFG.primaryColor);
+  if(s.dark)document.documentElement.setAttribute("data-dk","1");
+  const logo=s.logoUrl||CFG.logoUrl;
+  const name=s.shopName||CFG.shopName;
+  ["c-logo","a-logo","ll-logo"].forEach(id=>{const e=document.getElementById(id);if(e)e.src=logo;});
+  ["c-shopname","a-sn","ll-name","c-bill-sn"].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=name;});
+  const sl=document.getElementById("c-slogan");if(sl)sl.textContent=CFG.shopSlogan;
+  document.title=name;
+  buildUI();
+  cLoadProds();
+  buildAdminUI();
+  setInterval(()=>{const e=document.getElementById("a-clk");if(e){const n=new Date();e.textContent=n.toLocaleDateString("lo-LA")+" · "+n.toLocaleTimeString("lo-LA");}},1000);
+  if(sessionStorage.getItem("ds_auth")==="1")showAdminApp();
+});
+
+function buildUI(){
+  const colors={facebook:"#1877f2",whatsapp:"#25d366",tiktok:"#000000"};
+  const icons={facebook:"📘",whatsapp:"💬",tiktok:"🎵"};
+  document.getElementById("c-socs").innerHTML=Object.entries(CFG.social||{}).map(([k,v])=>{
+    const c=colors[k]||"#333";
+    return`<a href="${v.url}" target="_blank" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:2px solid ${c}20;border-radius:20px;padding:5px 13px;font-size:12px;font-weight:700;text-decoration:none;color:${c}">${icons[k]||"🔗"} ${v.name||k}</a>`;
+  }).join("");
+
+  const t=CFG.marquee.join(" · ");
+  document.getElementById("c-mq").innerHTML=`<span class="mqt">${t}</span><span class="mqt">${t}</span>`;
+
+  document.getElementById("ck-ships").innerHTML=CFG.shipping.map(s=>
+    `<label class="sopt"><input type="radio" name="cks" value="${s.value}"> ${s.label}</label>`).join("");
+
+  document.getElementById("ck-pays").innerHTML=CFG.payment.map(p=>
+    `<label class="popt"><input type="radio" name="ckp" value="${p.value}" onchange="cUpdPay()"><div style="font-size:20px;flex-shrink:0">${p.icon}</div><div><div style="font-size:13px;font-weight:700">${p.label}</div><div style="font-size:11px;color:var(--sub)">${p.desc||""}</div></div></label>`).join("");
+
+  ["ck-prov","pc-pv"].forEach(id=>{
+    const el=document.getElementById(id);if(!el)return;
+    Object.keys(CFG.districts||{}).forEach(p=>{const o=document.createElement("option");o.value=p;o.textContent=p;el.appendChild(o);});
+  });
+
+  const svg={facebook:`<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 36 36"><path fill="#1877F2" d="M36 18C36 8.059 27.941 0 18 0S0 8.059 0 18c0 8.985 6.582 16.436 15.188 17.784V23.203h-4.57V18h4.57v-3.963c0-4.508 2.686-6.996 6.793-6.996 1.967 0 4.027.352 4.027.352v4.43h-2.269c-2.235 0-2.93 1.386-2.93 2.808V18h4.988l-.797 5.203h-4.191v12.581C29.418 34.436 36 26.985 36 18z"/><path fill="#fff" d="M25 23.203L25.797 18H20.81v-3.369c0-1.423.695-2.808 2.93-2.808h2.269V7.393S23.948 7.04 21.981 7.04c-4.107 0-6.793 2.488-6.793 6.996V18h-4.57v5.203h4.57v12.581a18.19 18.19 0 0 0 5.624 0V23.203H25z"/></svg>`,
+    whatsapp:`<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 175 175"><circle cx="87" cy="87" r="87" fill="#25d366"/><path fill="#fff" d="M127 110c-1.8 5-8.9 9.1-14.4 10.3-3.8.8-8.8.7-26.4-5.5-22.1-8-36.4-30.5-37.5-31.9-1.1-1.4-8.9-11.8-8.9-22.5 0-10.7 5.6-16 7.6-18.1 2-2.2 4.3-2.7 5.8-2.7 1.5 0 2.9 0 4.2.1 1.3.1 3.1-.5 4.9 3.8l6.7 17c.7 1.7.3 3.6-.7 5.1l-3 4.4c-1 1.4-.8 3 .2 4.3 3.7 5.2 9.9 12.4 17 16.7 7.1 4.4 12.9 5.7 14.9 6.4 2 .6 3.1.5 4.3-.8l5.3-6.4c1.3-1.6 2.5-1.3 4.2-.7l17.4 8.2c1.7.6 2.9 1.1 3.3 1.8.4.7.4 4.3-1.4 9.3z"/></svg>`,
+    tiktok:`<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 48 48"><rect width="48" height="48" rx="10" fill="#000"/><path fill="#25f4ee" d="M32.3 14.9a7.9 7.9 0 0 1-4.6-3.7 8 8 0 0 1-1-3.9h-4.2v20.9a4.6 4.6 0 1 1-3.2-4.4v-4.3a8.9 8.9 0 1 0 7.4 8.8V19.4a12.2 12.2 0 0 0 6.8 2.1v-4.2a7.9 7.9 0 0 1-1.2-2.4z"/><path fill="#fe2c55" d="M33.5 16.1a7.9 7.9 0 0 1-4.6-3.7 8 8 0 0 1-1-3.9h-4.2v20.9a4.6 4.6 0 1 1-3.2-4.4v-4.3a8.9 8.9 0 1 0 7.4 8.8V20.6a12.2 12.2 0 0 0 6.8 2.1v-4.2a7.9 7.9 0 0 1-1.2-2.4z" opacity=".85"/><path fill="#fff" d="M32.9 15.5a7.9 7.9 0 0 1-4.6-3.7 8 8 0 0 1-1-3.9h-4.2v20.9a4.6 4.6 0 1 1-3.2-4.4v-4.3a8.9 8.9 0 1 0 7.4 8.8V20a12.2 12.2 0 0 0 6.8 2.1v-4.2a7.9 7.9 0 0 1-1.2-2.4z"/></svg>`};
+  const cc={facebook:"#1877f2",whatsapp:"#25d366",tiktok:"#000000"};
+  document.getElementById("c-contacts").innerHTML=Object.entries(CFG.social||{}).map(([k,v])=>`
+    <a href="${v.url}" target="_blank" class="ccard" style="border:2px solid ${cc[k]||"#ccc"}20">
+      <div class="ccib">${svg[k]||"🔗"}</div>
+      <div style="flex:1"><div style="font-weight:700;font-size:14px">${socNameLbl(k)}</div><div style="font-size:12px;color:var(--sub)">${v.name||""}</div></div>
+      <div style="width:30px;height:30px;border-radius:50%;background:${cc[k]||"#ccc"}15;display:flex;align-items:center;justify-content:center;font-size:14px;color:${cc[k]||"#333"}">›</div>
+    </a>`).join("");
+}
+function socNameLbl(k){return{facebook:"Facebook",whatsapp:"WhatsApp",tiktok:"TikTok"}[k]||k;}
+
+// ────────────────────────────────────────
+// LOGIN
+// ────────────────────────────────────────
+function showLogin(){document.getElementById("lscr").classList.add("on");setTimeout(()=>document.getElementById("lpwd").focus(),200);}
+function hideLogin(){document.getElementById("lscr").classList.remove("on");}
+
+function doLogin(){
+  const pwd=document.getElementById("lpwd").value.trim();
+  const err=document.getElementById("lerr");err.classList.remove("on");
+  const stored=lsGet().adminPwd||CFG.adminPwd;
+  if(pwd===stored){sessionStorage.setItem("ds_auth","1");hideLogin();showAdminApp();toast("ok","ຍິນດີ 👋","");}
+  else{err.classList.add("on");document.getElementById("lpwd").value="";document.getElementById("lpwd").focus();}
+}
+
+function showAdminApp(){
+  document.getElementById("apc").style.display="none";
+  document.getElementById("atrig").style.display="none";
+  document.getElementById("apa").style.display="block";
+  aNav(0);aDash();posLoad();aInitPoll();
+}
+function aLogout(){
+  sessionStorage.removeItem("ds_auth");
+  document.getElementById("apa").style.display="none";
+  document.getElementById("apc").style.display="block";
+  document.getElementById("atrig").style.display="block";
+  clearInterval(aPollTmr);
+}
+
+// ────────────────────────────────────────
+// CUSTOMER: PRODUCTS
+// ────────────────────────────────────────
+let cProds=[],cCart={},cSlip="",cVProds=[],cVIdx=0;
+
+async function cLoadProds(){
+  const g=document.getElementById("c-pgrid");
+  g.innerHTML=`<div style="grid-column:1/-1" class="ldc"><div class="spin"></div>ກຳລັງໂຫຼດ...</div>`;
+  try{
+    const rows=await api({action:"getProducts"});
+    cProds=(Array.isArray(rows)?rows:(rows.data||[])).map(r=>({name:r[0],cost:r[1],price:r[2],qty:r[3],img:r[4]}));
+    cVProds=cProds.filter(p=>Number(p.qty)>0);
+    cRenProds(cProds);
+  }catch(e){g.innerHTML=`<div style="grid-column:1/-1" class="empty"><div class="eic">😔</div>${e.message}<br><button class="btn btn-p btn-sm" style="margin-top:9px" onclick="cLoadProds()">ລອງ</button></div>`;}
+}
+
+function cFilt(){const q=document.getElementById("c-psch").value.toLowerCase().trim();cRenProds(q?cProds.filter(p=>(p.name||"").toLowerCase().includes(q)):cProds);}
+
+function cRenProds(prods){
+  const g=document.getElementById("c-pgrid"),cnt=document.getElementById("c-pcnt");
+  if(!prods||!prods.length){g.innerHTML=`<div style="grid-column:1/-1" class="empty"><div class="eic">🔍</div>ບໍ່ພົບ</div>`;cnt.textContent="";return;}
+  cnt.textContent=prods.length+" ລາຍ";
+  g.innerHTML=prods.map(p=>{
+    const qty=Number(p.qty)||0,out=qty<=0;
+    const img=p.img?gimg(p.img):"";
+    const ic=cCart[p.name]&&cCart[p.name].qty>0;
+    const stk=out?`<span style="color:var(--d);font-size:10px;font-weight:700">🚨 ໝົດ</span>`:qty<=5?`<span style="color:var(--w);font-size:10px;font-weight:700">⚠️ ${qty}</span>`:`<span style="color:var(--g);font-size:10px;font-weight:700">✅ ${qty}</span>`;
+    const sn=(p.name||"").replace(/'/g,"\\'");
+    const vi=cVProds.findIndex(x=>x.name===p.name);
+    return`<div class="pcard${ic?" sl":""}${out?" pout":""}" style="position:relative">
+      <div class="chk">✓</div>
+      <div style="position:relative;cursor:zoom-in" onclick="cOpenIv(${vi})">
+        <img src="${img||noImg}" alt="${p.name}" loading="lazy" onerror="this.src='${noImg}'">
+        <div style="position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,.45);color:#fff;border-radius:20px;padding:2px 7px;font-size:10px">🔍</div>
+      </div>
+      <div class="pcb" onclick="${out?"":"cAdd('"+sn+"')"}" style="cursor:${out?"not-allowed":"pointer"}">
+        <div class="pcn">${p.name}</div>
+        <div class="pcp">${fN(Number(p.price))} ₭</div>
+        <div class="pcs">${stk}${ic?` <span style="color:var(--p);font-weight:700">🛒×${cCart[p.name].qty}</span>`:""}</div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function cAdd(n){const p=cProds.find(x=>x.name===n);if(!p||Number(p.qty)<=0)return;if(!cCart[n])cCart[n]={...p,qty:0};cCart[n].qty++;cUpdCart();cFilt();}
+function cSetQ(n,q){if(q<=0)delete cCart[n];else{const p=cProds.find(x=>x.name===n);if(p){if(!cCart[n])cCart[n]={...p,qty:0};cCart[n].qty=q;}}cUpdCart();cRenCart();cFilt();}
+function cRem(n){delete cCart[n];cUpdCart();cRenCart();cFilt();}
+function cUpdCart(){
+  const its=Object.values(cCart).filter(i=>i.qty>0);
+  const cnt=its.reduce((s,i)=>s+i.qty,0);
+  const tot=its.reduce((s,i)=>s+i.qty*(Number(i.price)||0),0);
+  document.getElementById("c-cnt").textContent=cnt;
+  document.getElementById("c-ctot").textContent=fN(tot)+" ₭";
+  document.getElementById("c-fab").classList.toggle("on",cnt>0);
+}
+function cRenCart(){
+  const its=Object.values(cCart).filter(i=>i.qty>0);
+  const el=document.getElementById("c-cbody");
+  if(!its.length){el.innerHTML='<div class="empty">ຍັງບໍ່ໄດ້ເລືອກ</div>';return;}
+  el.innerHTML=its.map(i=>{const sub=i.qty*(Number(i.price)||0);const sn=(i.name||"").replace(/'/g,"\\'");return`<div class="cir"><img class="cii" src="${i.img?gimg(i.img):noImg}" onerror="this.src='${noImg}'"><div class="cin"><div class="cin-nm">${i.name}</div><div class="cin-pr">${fN(Number(i.price))}₭ × ${i.qty} = <b style="color:var(--p)">${fN(sub)}₭</b></div><div class="qc"><button class="qb" onclick="cSetQ('${sn}',${i.qty-1})">−</button><span class="qn">${i.qty}</span><button class="qb" onclick="cSetQ('${sn}',${i.qty+1})">+</button></div></div><button class="cdl" onclick="cRem('${sn}')">🗑️</button></div>`;}).join("");
+}
+function cOpenCart(){cRenCart();document.getElementById("c-cdrw").classList.add("on");}
+function cCloseCart(){document.getElementById("c-cdrw").classList.remove("on");}
+
+// Checkout
+function cOpenCk(){
+  const its=Object.values(cCart).filter(i=>i.qty>0);if(!its.length){toast("warn","ເລືອກກ່ອນ");return;}
+  cCloseCart();
+  let h="",tot=0;
+  its.forEach(i=>{const s=i.qty*(Number(i.price)||0);tot+=s;h+=`<div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0"><span>${i.name} ×${i.qty}</span><b>${fN(s)}₭</b></div>`;});
+  h+=`<div style="display:flex;justify-content:space-between;font-weight:700;font-size:13px;color:var(--p);margin-top:6px;padding-top:6px;border-top:1px solid rgba(var(--p3),.2)"><span>ລວມ</span><span>${fN(tot)} ₭</span></div>`;
+  document.getElementById("c-cksum").innerHTML=h;
+  document.getElementById("c-ckdrw").classList.add("on");
+  document.getElementById("ck-err").style.display="none";
+}
+function cCloseCk(){document.getElementById("c-ckdrw").classList.remove("on");}
+function cUpdPay(){
+  const pe=document.querySelector("input[name='ckp']:checked");
+  const op=CFG.payment.find(p=>pe&&p.value===pe.value);
+  const qs=document.getElementById("ck-qrs");
+  qs.style.display=op&&op.slip?"block":"none";
+  if(op&&op.slip){
+    document.getElementById("ck-qri").src=lsGet().qrUrl||CFG.qrUrl||"";
+    const bi=document.getElementById("ck-bankinfo");if(bi)bi.textContent="📱 "+(lsGet().bankInfo||CFG.bankInfo||"");
+  }
+}
+function cPrevSlip(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{cSlip=e.target.result;const p=document.getElementById("ck-slipp");p.src=e.target.result;p.style.display="block";};r.readAsDataURL(f);}
+
+async function cSubmit(){
+  const nm=document.getElementById("ck-name").value.trim();
+  const ph=document.getElementById("ck-ph").value.trim().replace(/\D/g,"");
+  const pv=document.getElementById("ck-prov").value;
+  const ad=document.getElementById("ck-addr").value.trim();
+  const se=document.querySelector("input[name='cks']:checked");
+  const pe=document.querySelector("input[name='ckp']:checked");
+  const nt=document.getElementById("ck-note").value.trim();
+  const br=document.getElementById("ck-branch").value.trim();
+  const er=document.getElementById("ck-err");er.style.display="none";
+  if(!nm){er.textContent="⚠️ ໃສ່ຊື່!";er.style.display="block";return;}
+  if(!ph||ph.length<8){er.textContent="⚠️ ໃສ່ເບີ!";er.style.display="block";return;}
+  if(!pv){er.textContent="⚠️ ເລືອກແຂວງ!";er.style.display="block";return;}
+  if(!se){er.textContent="⚠️ ເລືອກຂົນສົ່ງ!";er.style.display="block";return;}
+  if(!pe){er.textContent="⚠️ ເລືອກຊຳລະ!";er.style.display="block";return;}
+  if(pe.value==="COD"&&se.value!=="ອານຸສິດ"){er.textContent="⚠️ COD ໃຊ້ໄດ້ສະເພາະຂົນສົ່ງ ອານຸສິດ ເທົ່ານັ້ນ, ກະລຸນາເລືອກ ໂອນຈ່າຍ ຫຼື ປ່ຽນຂົນສົ່ງ";er.style.display="block";return;}
+  const op=CFG.payment.find(p=>p.value===pe.value);
+  if(op&&op.slip&&!cSlip){er.textContent="⚠️ Upload Slip!";er.style.display="block";return;}
+  const its=Object.values(cCart).filter(i=>i.qty>0);if(!its.length){er.textContent="⚠️ ເລືອກສິນຄ້າ!";er.style.display="block";return;}
+  const tot=its.reduce((s,i)=>s+i.qty*(Number(i.price)||0),0);
+  const now=new Date();
+  const code=`ORD-${String(now.getFullYear()).slice(-2)}${p2(now.getMonth()+1)}${p2(now.getDate())}-${ph.slice(-4)}${p2(Math.floor(Math.random()*99))}`;
+  const btn=document.getElementById("ck-sbtn");btn.disabled=true;btn.textContent="ກຳລັງສ່ງ...";
+  try{
+    const res=await api({action:"submitCustomerOrder",data:{code,customerName:nm,customerPhone:ph,customerAddr:[pv,ad].filter(Boolean).join(" - "),shipping:[se.value,br].filter(Boolean).join(" "),payment:pe.value,totalAmount:tot,note:nt,slipBase64:cSlip||"",cart:its.map(i=>({name:i.name,qty:i.qty,price:Number(i.price)||0}))}});
+    cCloseCk();
+    const fc=res.code||code;
+    const sn=lsGet().shopName||CFG.shopName;
+    document.getElementById("c-bill-sn").textContent=sn;
+    document.getElementById("c-bill-code").textContent=fc;
+    document.getElementById("c-bill-time").textContent="🕐 "+now.toLocaleString("lo-LA");
+    document.getElementById("c-bill-info").innerHTML=[["👤",nm],["📞",ph],["📍",[pv,ad].filter(Boolean).join(" - ")||"-"],["🚚",[se.value,br].filter(Boolean).join(" ")||"-"],["💳",pe.value]].map(([l,v])=>`<div style="display:flex;gap:8px;margin-bottom:4px"><span style="color:var(--sub);min-width:65px;font-size:11px">${l}</span><span style="font-size:12px;font-weight:600">${v}</span></div>`).join("");
+    document.getElementById("c-bill-items").innerHTML=`<div style="font-size:11px;font-weight:700;color:var(--sub);margin-bottom:5px">🛍️ ລາຍການ</div>`+its.map(i=>`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.04)"><div><div style="font-size:12px;font-weight:700">${i.name}</div><div style="font-size:10px;color:var(--sub)">${fN(i.price)}₭ ×${i.qty}</div></div><div style="font-size:12px;font-weight:700;color:var(--p)">${fN(i.qty*i.price)}₭</div></div>`).join("");
+    document.getElementById("c-bill-tot").textContent=fN(tot)+" ₭";
+    const wa=encodeURIComponent(`ສວັດດີ! Order ${fc} ມູນຄ່າ ${fN(tot)} ₭ 🙏`);
+    document.getElementById("c-bill-wa").href=`https://wa.me/85602096631028?text=${wa}`;
+    document.getElementById("c-bill-fb").href=CFG.social?.facebook?.url||"#";
+    document.getElementById("ctab-shop").style.display="none";
+    document.getElementById("c-sscr").classList.add("on");
+    window.scrollTo(0,0);cCart={};cSlip="";cUpdCart();
+  }catch(e){er.textContent="❌ "+e.message;er.style.display="block";}
+  finally{btn.disabled=false;btn.textContent="✅ ສ່ງຄຳສັ່ງ";}
+}
+function cReset(){document.getElementById("c-sscr").classList.remove("on");document.getElementById("ctab-shop").style.display="";cTab("shop",document.querySelector(".ctab"));cFilt();}
+function cGoSt(){const c=document.getElementById("c-bill-code").textContent;cReset();cTab("status",document.querySelectorAll(".ctab")[1]);document.getElementById("c-stcode").value=c;setTimeout(cCheckSt,200);}
+
+// Status
+async function cCheckSt(){
+  const code=document.getElementById("c-stcode").value.trim().toUpperCase();
+  const el=document.getElementById("c-stres");if(!code){el.innerHTML='<div class="empty">ໃສ່ລະຫັດ</div>';return;}
+  el.innerHTML=`<div class="ldc"><div class="spin"></div>ກຳລັງດຶງ...</div>`;
+  try{const res=await api({action:"getOrderStatus",code});if(!res||res.status==="not_found"){el.innerHTML='<div class="empty"><div class="eic">😔</div>ບໍ່ພົບ</div>';return;}const ords=res.orders||[res];el.innerHTML=ords.map(cRenSt).join("");}
+  catch(e){el.innerHTML=`<div class="empty">❌ ${e.message}</div>`;}
+}
+function cRenSt(o){
+  const sd=[{k:"ລໍຖ້າຮັບຍອດ",l:"ລໍຖ້າ"},{k:"ແມ່ຄ້າຮັບຍອດແລ້ວ",l:"ຮັບ"},{k:"ກຳລັງກຽມການຈັດສົ່ງ",l:"ກຽມ"},{k:"ຈັດສົ່ງສຳເລັດ",l:"ສ່ງ"}];
+  const ci=Math.max(0,sd.findIndex(s=>s.k===o.orderStatus));
+  const pct=[0,33,66,100][ci];
+  const dots=sd.map((s,i)=>`<div class="rdw"><div class="rd${i<=ci?" dn":""}">${i<=ci?"✓":i+1}</div><div class="rdl" style="color:${i<=ci?"var(--p)":"#bbb"}">${s.l}</div></div>`).join("");
+  const msgs={"ລໍຖ້າຮັບຍອດ":"⏳ ກຳລັງລໍຖ້າ","ແມ່ຄ້າຮັບຍອດແລ້ວ":"✅ ຮັບຍອດ!","ກຳລັງກຽມການຈັດສົ່ງ":"📦 ກຽມສ່ງ","ຈັດສົ່ງສຳເລັດ":"🎉 ສ່ງແລ້ວ! ຂອບໃຈ 🙏"};
+  return`<div class="stsc">
+    <div style="display:flex;justify-content:space-between;margin-bottom:7px"><div><div style="font-size:11px;color:var(--sub)">ລະຫັດ</div><div style="font-size:18px;font-weight:800;color:var(--p)">${o.code||"-"}</div><div style="font-size:10px;color:var(--sub)">${o.submittedAt||""}</div></div><span class="bdg ${ci===3?"bdg-g":ci===0?"bdg-w":"bdg-b"}">${sd[ci]?.l||""}</span></div>
+    <div class="road"><div class="rt"><div class="rf" style="width:${pct}%"></div></div><div class="rm" style="left:calc(${pct}% - ${pct>5?16:0}px)">🛵</div><div class="rds">${dots}</div></div>
+    ${msgs[o.orderStatus]?`<div style="background:rgba(var(--p3),.06);border-radius:8px;padding:8px 11px;font-size:12px;font-weight:700;color:var(--p);margin-bottom:9px">${msgs[o.orderStatus]}</div>`:""}
+    <div style="display:grid;gap:4px;font-size:12px;background:rgba(0,0,0,.02);border-radius:8px;padding:9px;margin-bottom:7px">
+      ${[["👤",o.customerName],["📞",o.customerPhone],["📍",o.customerAddr],["🚚",o.shipping],["💳",o.payment],["💰",fN(o.totalAmount)+" ₭"]].map(([l,v])=>`<div style="display:flex;gap:7px"><span style="color:var(--sub)">${l}</span><span>${v||"-"}</span></div>`).join("")}
+    </div>
+    ${o.itemsSummary?`<div style="background:rgba(var(--p3),.05);border-left:3px solid var(--p);padding:6px 10px;border-radius:0 7px 7px 0;font-size:11px;color:var(--sub);line-height:1.8;margin-bottom:7px">${String(o.itemsSummary).replace(/\n/g,"<br>")}</div>`:""}
+    ${o.slipUrl?`<div style="margin-bottom:7px"><div style="font-size:11px;font-weight:700;color:var(--p);margin-bottom:5px">📸 Slip</div><img src="${gthumb(o.slipUrl,400)}" style="width:100%;max-width:280px;border-radius:9px;border:2px solid rgba(var(--p3),.3)"></div>`:""}
+    ${o.shippingBillUrl?`<div><div style="font-size:11px;font-weight:700;color:var(--b);margin-bottom:5px">📦 ບິນ</div><img src="${gthumb(o.shippingBillUrl,400)}" style="width:100%;max-width:280px;border-radius:9px;border:2px solid rgba(52,152,219,.3)"></div>`:`<div style="border:1.5px dashed rgba(52,152,219,.3);border-radius:7px;padding:9px;text-align:center;font-size:11px;color:var(--sub)">📦 ລໍຖ້າຮ້ານໂຫຼດບິນ...</div>`}
+  </div>`;
+}
+
+// Image viewer
+function cOpenIv(idx){if(!cVProds.length||idx<0)return;cVIdx=Math.max(0,Math.min(idx,cVProds.length-1));cRenIv();document.getElementById("c-ivw").classList.add("on");document.body.style.overflow="hidden";}
+function cRenIv(){const p=cVProds[cVIdx];if(!p)return;document.getElementById("c-ivi").src=p.img?gimg(p.img):noImg;document.getElementById("c-ivn").textContent=p.name;document.getElementById("c-ivp").textContent=fN(Number(p.price))+" ₭";document.getElementById("c-ivc").textContent=`${cVIdx+1}/${cVProds.length}`;const b=document.getElementById("c-iv-add");const o=Number(p.qty)<=0;b.textContent=o?"🚨 ໝົດ":"🛒 ເພີ່ມ";b.disabled=o;b.style.opacity=o?".5":"1";}
+function cIvNav(d){cVIdx=(cVIdx+d+cVProds.length)%cVProds.length;cRenIv();}
+function cIvAdd(){const p=cVProds[cVIdx];if(!p||Number(p.qty)<=0)return;cAdd(p.name);cCloseIvBtn();cTab("shop",document.querySelector(".ctab"));}
+function cCloseIv(e){if(e.target===document.getElementById("c-ivw"))cCloseIvBtn();}
+function cCloseIvBtn(){document.getElementById("c-ivw").classList.remove("on");document.body.style.overflow="";}
+(()=>{let sx=0;const el=document.getElementById("c-ivw");if(!el)return;el.addEventListener("touchstart",e=>{sx=e.touches[0].clientX;},{passive:true});el.addEventListener("touchend",e=>{const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)cIvNav(d<0?1:-1);},{passive:true});})();
+
+function cTab(n,btn){document.querySelectorAll(".csec").forEach(s=>s.classList.remove("on"));document.querySelectorAll(".ctab").forEach(b=>b.classList.remove("on"));document.getElementById("ctab-"+n).classList.add("on");if(btn)btn.classList.add("on");}
+</script>
+
+<script>
+// ────────────────────────────────────────
+// ADMIN
+// ────────────────────────────────────────
+function aNav(p){document.querySelectorAll(".apg").forEach(x=>x.classList.remove("on"));document.getElementById("ap"+p).classList.add("on");document.querySelectorAll(".ani").forEach(x=>x.classList.remove("on"));document.querySelectorAll(".ani")[p]?.classList.add("on");}
+function aMOpen(id){document.getElementById(id).classList.add("on");}
+function aMClose(id){document.getElementById(id).classList.remove("on");}
+
+function buildAdminUI(){
+  const pw=document.getElementById("pos-ships");
+  if(pw)pw.innerHTML=`<div style="font-size:10px;font-weight:700;color:var(--p);margin-bottom:3px">🚚</div>`+CFG.shipping.map(s=>`<label style="display:inline-flex;align-items:center;gap:3px;background:var(--card);border:1px solid var(--br);border-radius:5px;padding:4px 7px;font-size:11px;cursor:pointer;margin:2px"><input type="radio" name="pos-sh" value="${s.value}" style="width:auto;margin:0"> ${s.label}</label>`).join("")+`<input type="text" id="pos-br" placeholder="ສາຂາ" style="width:100%;margin-top:4px;padding:5px;border:1px solid var(--br);border-radius:5px;font-size:11px;background:var(--inp);color:var(--tx)">`;
+  const cs=document.getElementById("csws");
+  if(cs)cs.innerHTML=["#D6377E","#E91E8C","#AD1457","#F06292","#EC407A","#C2185B","#F48FB1"].map(c=>`<div class="csw" style="background:${c}" onclick="aApplyCol('${c}')"></div>`).join("");
+}
+
+// DASHBOARD
+let aDashD={},aChart=null;
+async function aDash(){
+  ["ds-o","ds-s","ds-p"].forEach(id=>document.getElementById(id).textContent="…");
+  try{
+    const data=await apiG("getDashboard");aDashD=data;
+    const lbls=Object.keys(data).sort();
+    const ctx=document.getElementById("a-ch").getContext("2d");
+    if(aChart)aChart.destroy();
+    const col=lsGet().primaryColor||CFG.primaryColor;
+    aChart=new Chart(ctx,{type:"line",data:{labels:lbls.map(l=>l.slice(5).replace("-","/")),datasets:[{label:"ຍອດ",data:lbls.map(d=>data[d].totalSales),borderColor:col,backgroundColor:col+"15",fill:true,tension:.35,pointRadius:3}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
+    const td=data[todY()]||{totalSales:0,profit:0,rawRows:[]};
+    document.getElementById("ds-o").textContent=(td.rawRows||[]).length;
+    document.getElementById("ds-s").textContent=fN(td.totalSales);
+    document.getElementById("ds-p").textContent=fN(td.profit);
+    aRenBills(td.rawRows||[]);
+  }catch(e){toast("err","Dashboard",e.message);}
+}
+function aRenBills(rows){
+  const el=document.getElementById("a-tbd");if(!rows.length){el.innerHTML='<div class="empty">ຍັງບໍ່ມີ</div>';return;}
+  const g={};rows.forEach(r=>{const k=`${r[13]}|${r[8]}`;if(!g[k])g[k]={code:r[13]||"",name:r[8]||"",items:[],total:0,rows:[]};g[k].items.push(`${r[1]}×${r[2]}`);g[k].total+=Number(r[3])||0;g[k].rows.push(r);});
+  el.innerHTML=Object.values(g).map(b=>{const rJ=JSON.stringify(b.rows).replace(/'/g,"&#39;");return`<div class="bia" onclick='aBillGrp(${rJ})'><div style="display:flex;justify-content:space-between"><b style="font-size:12px">${b.name||"ບໍ່ລະບຸ"}${b.code?" #"+b.code:""}</b><b style="font-size:12px;color:var(--p)">${fN(b.total)}₭</b></div><div style="font-size:11px;color:var(--sub);margin-top:2px">${b.items.join(", ")}</div></div>`;}).join("");
+}
+function aBillGrp(rows){
+  document.getElementById("a-billmc").innerHTML=rows.map(r=>{const rJ=JSON.stringify(r).replace(/'/g,"&#39;");return`<div style="background:rgba(var(--p3),.04);border:1px solid rgba(var(--p3),.15);border-radius:8px;padding:10px;margin-bottom:8px"><div style="display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:12px">${[["ສິນຄ້າ",r[1]],["ຈຳ",r[2]],["ຍອດ",fN(Number(r[3]))+"₭"],["ກຳໄລ",fN(Number(r[5]))+"₭"],["ລູກ",r[8]||"-"],["ເບີ",r[9]||"-"]].map(p=>`<span style="color:var(--sub)">${p[0]}</span><b>${p[1]}</b>`).join("")}</div><div style="display:flex;gap:6px;margin-top:8px"><button class="btn btn-gh btn-sm" style="flex:1" onclick='aEB(${rJ})'>✏️</button><button class="btn btn-dg btn-sm" style="flex:1" onclick='aDB(${rJ})'>🗑️</button></div></div>`;}).join("");
+  aMOpen("a-billm");
+}
+async function aEB(r){const v=await dlgP("ແກ້ຈຳ",""+r[1],r[2]);if(!v)return;try{const res=await api({action:"editSaleRow",dateStr:String(r[0]),name:r[1],oldQty:r[2],newQty:v});toast("ok","ສຳ",res.message);aMClose("a-billm");aDash();}catch(e){toast("err","ຜິດ",e.message);}}
+async function aDB(r){if(!await dlgC("ລຶບ","ລຶບ "+r[1]+" ×"+r[2]+"?","🗑️"))return;try{const res=await api({action:"cancelSaleData",dateStr:String(r[0]),name:r[1],qty:r[2]});toast("ok","ສຳ",res.message);aMClose("a-billm");aDash();}catch(e){toast("err","ຜິດ",e.message);}}
+
+// ORDERS
+let aOrds=[],aCurStF="";
+async function aLoadOrders(){
+  document.getElementById("a-olist").innerHTML=`<div class="ldc"><div class="spin"></div>ກຳລັງໂຫຼດ...</div>`;
+  try{const res=await api({action:"getAllOrders"});aOrds=Array.isArray(res)?res:(res.data||[]);aOrds.sort((a,b)=>String(b.submittedAt||"").localeCompare(String(a.submittedAt||"")));aFiltOrd();}
+  catch(e){document.getElementById("a-olist").innerHTML=`<div class="empty">❌ ${e.message}</div>`;}
+}
+function aOrdToday(){document.getElementById("a-odate").value=todY();aFiltOrd();}
+function aFiltSt(st,el){aCurStF=st;document.querySelectorAll(".fb").forEach(b=>b.classList.remove("on"));if(el)el.classList.add("on");aFiltOrd();}
+function aFiltOrd(){
+  const q=(document.getElementById("a-osch").value||"").toLowerCase();
+  const dt=document.getElementById("a-odate").value||"";
+  let d=[...aOrds];
+  if(dt)d=d.filter(o=>{const t=String(o.submittedAt||"");const m=t.match(/(\d{2})\/(\d{2})\/(\d{4})/);return m?`${m[3]}-${m[2]}-${m[1]}`===dt:t.startsWith(dt);});
+  if(aCurStF)d=d.filter(o=>o.orderStatus===aCurStF);
+  if(q)d=d.filter(o=>(o.customerName||"").toLowerCase().includes(q)||(o.code||"").toLowerCase().includes(q)||(o.customerPhone||"").includes(q));
+  document.getElementById("a-ocnt").textContent=d.length+" ລາຍ";
+  const sb=document.getElementById("a-osb");
+  if(d.length){sb.style.display="flex";document.getElementById("os-t").textContent=d.length;document.getElementById("os-w").textContent=d.filter(o=>o.orderStatus==="ລໍຖ້າຮັບຍອດ").length;document.getElementById("os-d").textContent=d.filter(o=>o.orderStatus==="ຈັດສົ່ງສຳເລັດ").length;document.getElementById("os-a").textContent=fN(d.reduce((s,o)=>s+(Number(o.totalAmount)||0),0))+"₭";}else sb.style.display="none";
+  aRenOrds(d);
+}
+function aRenOrds(ords){
+  const el=document.getElementById("a-olist");if(!ords.length){el.innerHTML='<div class="empty"><div class="eic">📭</div>ບໍ່ມີ</div>';return;}
+  const sd=[{k:"ລໍຖ້າຮັບຍອດ",c:"st-w",l:"⏳ ລໍ"},{k:"ແມ່ຄ້າຮັບຍອດແລ້ວ",c:"st-a",l:"✅ ຮັບ"},{k:"ກຳລັງກຽມການຈັດສົ່ງ",c:"st-k",l:"📦 ກຽມ"},{k:"ຈັດສົ່ງສຳເລັດ",c:"st-d",l:"🎉 ສ່ງ"}];
+  el.innerHTML=ords.map(o=>{
+    const code=(o.code||"").replace(/'/g,"\\'");
+    const isCOD=(o.payment||"").includes("COD");
+    const stbs=sd.map(s=>`<button class="stb ${s.c}${o.orderStatus===s.k?" cur":""}" onclick="aUpdSt('${code}','${s.k}',this)">${s.l}</button>`).join("");
+    const slip=o.slipUrl?`<img class="sth" src="${gthumb(o.slipUrl,80)}" onclick="aViewImg('${o.slipUrl}','Slip')" onerror="this.style.display='none'">`:`<span style="font-size:15px">${o.slipStatus==="✅ ມີ"?"✅":"—"}</span>`;
+    const bill=o.shippingBillUrl?`<img class="sth" src="${gthumb(o.shippingBillUrl,80)}" onclick="aViewImg('${o.shippingBillUrl}','ບິນ')" onerror="this.style.display='none'">`:`<button class="upbb" data-code="${code}">📤 ອັບ</button>`;
+    return`<div class="ocrd"><div class="ohdr" style="background:${isCOD?"rgba(52,152,219,.06)":"rgba(var(--p3),.06)"}"><div><div class="ocd">#${o.code||"-"}</div><div class="oti">🕐 ${o.submittedAt||"-"}</div><span class="bdg ${isCOD?"bdg-b":"bdg-s"}" style="margin-top:5px;display:inline-flex">${isCOD?"💵 COD":"💳 ໂອນ"}</span></div><span class="bdg ${o.orderStatus==="ຈັດສົ່ງສຳເລັດ"?"bdg-g":o.orderStatus==="ລໍຖ້າຮັບຍອດ"?"bdg-w":"bdg-b"}">${o.orderStatus||"?"}</span></div>${[["👤",o.customerName],["📞",o.customerPhone],["📍",o.customerAddr],["🚚",o.shipping],["💳",o.payment]].map(([l,v])=>`<div class="oir"><span class="olb">${l}</span><span>${v||"-"}</span></div>`).join("")}${o.note?`<div class="oir"><span class="olb">📝</span><span>${o.note}</span></div>`:""}<div class="oit">${String(o.itemsSummary||"-").replace(/\n/g,"<br>")}</div><div class="otr"><div style="display:flex;gap:9px;align-items:center"><div><div style="font-size:10px;color:var(--sub)">Slip</div><div style="margin-top:2px">${slip}</div></div><div><div style="font-size:10px;color:var(--sub)">ບິນ</div><div style="margin-top:2px">${bill}</div></div></div><div class="otamt">${fN(o.totalAmount||0)} ₭</div></div><div class="sbts">${stbs}</div><div style="display:flex;gap:5px"><button class="btn btn-dg btn-sm" style="flex:1" onclick="aDelOrd('${code}')">🗑️</button><button class="btn btn-gh btn-sm" style="flex:1" onclick="aPrintOrd('${code}')">🖨️</button></div></div>`;
+  }).join("");
+}
+async function aUpdSt(code,ns,btnEl){
+  const ACC="ແມ່ຄ້າຮັບຍອດແລ້ວ";
+  const ord=aOrds.find(o=>o.code===code);
+  const willAcc=ns===ACC&&ord?.orderStatus!==ACC;
+  if(willAcc&&!await dlgC("ຢືນຢັນ","ຮັບ #"+code+"?\nຈະຕັດສະຕ໋ອກ!","✅","var(--p)"))return;
+  if(btnEl)btnEl.disabled=true;
+  try{
+    await api({action:"updateOrderStatus",code,status:ns});
+    if(willAcc&&ord){
+      try{
+        const its=aPrsItems(ord.itemsSummary||"");
+        if(its.length)await api({action:"recordBulkSale",cart:its.map(i=>({name:i.name,qty:i.qty,price:i.price,discount:0,note:"",customerName:ord.customerName||"",customerPhone:ord.customerPhone||"",customerAddr:ord.customerAddr||"",shipping:ord.shipping||"",payment:ord.payment||"",orderCode:code}))});
+        aRemPN(code);
+        const itemSum=its.map(i=>i.name+"×"+i.qty).join(", ");
+        spAcceptOrder(code, ord.customerName, ord.totalAmount, itemSum);
+      }catch(e2){toast("warn","ຮັບ✓ ຕັດ✗",e2.message);}
+    } else {
+      spOrderStatus(code, ns);
+    }
+    const i=aOrds.findIndex(o=>o.code===code);if(i>=0)aOrds[i].orderStatus=ns;aFiltOrd();
+  }catch(e){toast("err","ຜິດ",e.message);}
+  finally{if(btnEl)btnEl.disabled=false;}
+}
+function aPrsItems(s){const its=[];String(s).split(/\n/).forEach(l=>{const m=l.trim().match(/^(.+?)\s*[×xX](\d+)\s*\(([\d,.\s]+)/);if(m){const pr=parseInt(m[3].replace(/[,.\s]/g,""))||0;const q=parseInt(m[2])||1;if(m[1].trim()&&q>0&&pr>0)its.push({name:m[1].trim(),qty:q,price:pr});}});return its;}
+async function aDelOrd(code){
+  if(!await dlgC("ລຶບ","ລຶບ #"+code+"?","🗑️"))return;
+  try{
+    await api({action:"deleteOrder",code});
+    aOrds=aOrds.filter(o=>o.code!==code);aFiltOrd();
+    spDelOrder(code);
+  }catch(e){toast("err","ຜິດ",e.message);}
+}
+function aViewImg(url,t){document.getElementById("a-imgmt").textContent=t;document.getElementById("a-imgsrc").src=gthumb(url,800)||url;document.getElementById("a-imglink").href=url;aMOpen("a-imgm");}
+(()=>{let _c="";document.addEventListener("click",e=>{const b=e.target.closest(".upbb[data-code]");if(!b)return;_c=b.getAttribute("data-code")||"";if(_c)document.getElementById("shipf").click();});document.getElementById("shipf").addEventListener("change",function(){const f=this.files[0];if(!f||!_c)return;const code=_c;this.value="";toast("info","ກຳລັງອັບ...","");const r=new FileReader();r.onload=async ev=>{try{await api({action:"uploadShippingBill",code,shipBillBase64:ev.target.result});spUploadBill(code);}catch(e){toast("err","ຜິດ",e.message);};};r.readAsDataURL(f);});})();
+function aPrintOrd(code){const o=aOrds.find(x=>x.code===code);if(!o)return;const w=window.open("","_blank","width=370,height=580");w.document.write(`<html><body style="font-family:monospace;font-size:12px;padding:12px"><div style="text-align:center;font-weight:700;font-size:14px;margin-bottom:8px">${lsGet().shopName||CFG.shopName}</div><hr><div>ລະຫັດ: <b>${o.code}</b></div><div>ວັນ: ${o.submittedAt||""}</div><div>👤 ${o.customerName||""} 📞 ${o.customerPhone||""}</div><div>📍 ${o.customerAddr||""}</div><div>🚚 ${o.shipping||""} 💳 ${o.payment||""}</div><hr><div style="white-space:pre-line">${o.itemsSummary||""}</div><hr><b>ລວມ: ${fN(o.totalAmount||0)} ₭</b><div style="text-align:center;margin-top:8px;font-size:10px">ຂອບໃຈ 🙏</div></body></html>`);w.document.close();w.print();}
+function aPrintAll(){const d=aOrds.filter(o=>{const dt=document.getElementById("a-odate").value;if(!dt)return true;const t=String(o.submittedAt||"");const m=t.match(/(\d{2})\/(\d{2})\/(\d{4})/);return m?`${m[3]}-${m[2]}-${m[1]}`===dt:t.startsWith(dt);});if(!d.length){toast("warn","ບໍ່ມີ");return;}const tot=d.reduce((s,o)=>s+(Number(o.totalAmount)||0),0);const w=window.open("","_blank","width=400,height=700");w.document.write(`<html><body style="font-family:monospace;font-size:12px"><div style="text-align:center;font-size:14px;font-weight:700;padding:12px;border-bottom:2px solid #333">${lsGet().shopName||CFG.shopName}<br>${d.length} ໃບ · ${fN(tot)} ₭</div>${d.map(o=>`<div style="padding:11px;border-bottom:1px dashed #ccc"><b>#${o.code}</b> ${o.submittedAt||""}<br>👤 ${o.customerName||""} 📞 ${o.customerPhone||""}<br>💰 ${fN(o.totalAmount||0)} ₭ · ${o.orderStatus||""}</div>`).join("")}</body></html>`);w.document.close();setTimeout(()=>w.print(),400);}
+
+// STOCK
+let aCurEN="";
+async function aLoadStk(){
+  const el=document.getElementById("a-stklist");el.innerHTML=`<div class="ldc"><div class="spin"></div></div>`;
+  try{
+    const data=await apiG("getProductsAdmin");if(!data||!data.length){el.innerHTML='<div class="empty">ຍັງບໍ່ມີ</div>';return;}
+    el.innerHTML=data.map(p=>{const qty=Number(p.qty)||0;const qc=qty<=0?"bdg-d":qty<=5?"bdg-w":"bdg-g";const imgE=encodeURIComponent(p.img||"");const sn=(p.name||"").replace(/'/g,"\\'");return`<div class="pcarda"><img class="ptha" src="${p.img?gthumb(p.img,120):noImg}" onerror="this.src='${noImg}'"><div style="flex:1;min-width:0"><div style="font-weight:700;font-size:13px">${p.name}</div><div style="font-size:11px;color:var(--sub)">ທຶນ: ${fN(p.cost)} · ຂາຍ: ${fN(p.price)}</div><span class="bdg ${qc}" style="margin-top:4px">ຄົງ ${qty}</span><div style="display:flex;gap:5px;margin-top:7px"><button class="btn btn-ok btn-sm" onclick="aStkM('${sn}','${p.cost}','${p.price}','${qty}','${imgE}','a')">➕</button><button class="btn btn-gh btn-sm" onclick="aStkM('${sn}','${p.cost}','${p.price}','${qty}','${imgE}','e')">✏️</button><button class="btn btn-dg btn-sm" onclick="aStkM('${sn}','${p.cost}','${p.price}','${qty}','${imgE}','d')">🗑️</button></div></div></div>`;}).join("");
+  }catch(e){el.innerHTML=`<div class="empty">❌ ${e.message}</div>`;}
+}
+function aStkM(name,cost,price,qty,imgE,tab){
+  aCurEN=name;const img=decodeURIComponent(imgE||"");
+  document.getElementById("a-stkmt").textContent=name;document.getElementById("a-mi").src=img?gthumb(img,120):noImg;
+  document.getElementById("m-nm").value=name;document.getElementById("m-cs").value=cost;document.getElementById("m-pr").value=price;document.getElementById("m-qt").value=qty;document.getElementById("m-im").value=img;
+  document.getElementById("m-an").textContent=name;document.getElementById("m-aq").textContent=qty;document.getElementById("m-dn").textContent=name;
+  aStkT(tab||"e");aMOpen("a-stkm");
+}
+function aStkT(t){["e","a","d"].forEach(k=>{document.getElementById("mt-"+k+"c").style.display=k===t?"block":"none";document.getElementById("mt-"+k).classList.toggle("on",k===t);});}
+function aPMImg(){const u=document.getElementById("m-im").value.trim();if(u)document.getElementById("a-mi").src=gimg(u);}
+async function aStkES(){
+  const pl={action:"editProductFull",oldName:aCurEN,newName:document.getElementById("m-nm").value.trim(),cost:document.getElementById("m-cs").value,price:document.getElementById("m-pr").value,qty:document.getElementById("m-qt").value,imgUrl:document.getElementById("m-im").value.trim()};
+  try{
+    await api(pl);
+    aMClose("a-stkm");
+    spEditProduct(pl.newName||aCurEN);
+  }catch(e){toast("err","ຜິດ",e.message);}
+}
+async function aStkAS(){
+  const q=document.getElementById("m-aqa").value;
+  if(!q||Number(q)<=0){toast("warn","ໃສ່ຈຳ");return;}
+  try{
+    const r=await api({action:"quickAddStock",name:aCurEN,qty:q});
+    aMClose("a-stkm");
+    const newQty=(r.message||"").match(/ຄົງ (\d+)/);
+    spAddStock(aCurEN, q, newQty?newQty[1]:"-");
+  }catch(e){toast("err","ຜິດ",e.message);}
+}
+async function aStkDS(){
+  try{
+    await api({action:"deleteProduct",name:aCurEN});
+    aMClose("a-stkm");
+    spDelProduct(aCurEN);
+  }catch(e){toast("err","ຜິດ",e.message);}
+}
+function aPrevImg(){const u=document.getElementById("p-img").value.trim();if(!u){toast("warn","ໃສ່ URL");return;}document.getElementById("p-imgt").src=gimg(u);document.getElementById("p-imgprev").style.display="block";}
+async function aSaveP(){
+  const n=document.getElementById("p-name").value.trim();
+  const q=document.getElementById("p-qty").value;
+  const c=document.getElementById("p-cost").value;
+  const pr=document.getElementById("p-price").value;
+  if(!n||!q){toast("warn","ໃສ່ຊື່ ແລະ ຈຳ!");return;}
+  try{
+    await api({action:"saveProduct",name:n,cost:c,price:pr,qty:q,imgUrl:document.getElementById("p-img").value.trim()});
+    ["p-name","p-cost","p-price","p-qty","p-img"].forEach(id=>document.getElementById(id).value="");
+    document.getElementById("p-imgprev").style.display="none";
+    spSaveProduct(n, q, c, pr);
+  }catch(e){toast("err","ຜິດ: "+e.message);}
+}
+
+// POS
+let posProds=[],posCart=[],posSel=null;
+async function posLoad(){
+  const g=document.getElementById("pos-gr");g.innerHTML=`<div style="grid-column:1/-1" class="ldc"><div class="spin"></div></div>`;
+  try{const d=await apiG("getProductsAdmin");posProds=Array.isArray(d)?d:[];posRenG(posProds);}catch(e){g.innerHTML=`<div style="grid-column:1/-1" class="empty">❌ ${e.message}</div>`;}
+}
+function posF(){const q=document.getElementById("pos-sch").value.toLowerCase();posRenG(q?posProds.filter(r=>(r.name||"").toLowerCase().includes(q)):posProds);}
+function posRenG(prods){
+  const g=document.getElementById("pos-gr");if(!prods||!prods.length){g.innerHTML='<div style="grid-column:1/-1" class="empty">ບໍ່ມີ</div>';return;}
+  g.innerHTML=prods.map(r=>{const qty=Number(r.qty)||0,out=qty<=0;const img=r.img?gthumb(r.img,100):"";const sn=(r.name||"").replace(/'/g,"\\'");const stk=out?`<span style="color:var(--d);font-size:8px">🚨</span>`:qty<=5?`<span style="color:var(--w);font-size:8px">⚠️${qty}</span>`:`<span style="color:var(--g);font-size:8px">✅</span>`;return`<div class="pospc${out?" posout":""}" onclick="${out?"":"posS('"+sn+"',"+qty+")"}"><div class="pck">✓</div><img src="${img||noImg}" onerror="this.src='${noImg}'"><div class="pospc-n">${r.name}</div><div class="pospc-p">${fN(r.price||0)}₭</div><div class="pospc-s">${stk}</div></div>`;}).join("");
+  if(posSel)document.querySelectorAll(".pospc").forEach(c=>{if(c.querySelector(".pospc-n")?.textContent===posSel)c.classList.add("sl");});
+}
+function posS(name,qty){
+  if(qty<=0){toast("warn","ໝົດ!");return;}
+  if(posSel===name){posSel=null;document.querySelectorAll(".pospc").forEach(c=>c.classList.remove("sl"));document.getElementById("pos-sel").classList.remove("on");return;}
+  posSel=name;document.querySelectorAll(".pospc").forEach(c=>{c.classList.remove("sl");if(c.querySelector(".pospc-n")?.textContent===name)c.classList.add("sl");});
+  document.getElementById("pos-seln").textContent="🛍️ "+name;
+  document.getElementById("pos-selst").innerHTML=qty<=5?`<span style="color:var(--w)">⚠️ ຄົງ ${qty}</span>`:`<span style="color:var(--g)">✅ ຄົງ ${qty}</span>`;
+  document.getElementById("pos-qty").value=1;document.getElementById("pos-disc").value="";document.getElementById("pos-note").value="";
+  document.getElementById("pos-sel").classList.add("on");
+}
+function posAdd(){
+  if(!posSel){toast("warn","ເລືອກກ່ອນ");return;}
+  const qty=parseInt(document.getElementById("pos-qty").value)||1;const disc=parseInt(document.getElementById("pos-disc").value)||0;const note=document.getElementById("pos-note").value||"";
+  const p=posProds.find(x=>x.name===posSel);if(!p)return;
+  const se=document.querySelector("input[name='pos-sh']:checked");const br=(document.getElementById("pos-br")?.value||"").trim();
+  posCart.push({name:posSel,qty,price:Number(p.price)||0,discount:disc,note,customerName:document.getElementById("pc-nm").value.trim(),customerPhone:document.getElementById("pc-ph").value.trim(),customerAddr:[document.getElementById("pc-pv").value,document.getElementById("pc-ad").value].filter(Boolean).join(" - "),shipping:[se?.value||"",br].filter(Boolean).join(" ")});
+  posRenCart();posSel=null;document.querySelectorAll(".pospc").forEach(c=>c.classList.remove("sl"));document.getElementById("pos-sel").classList.remove("on");
+}
+function posRenCart(){
+  const c=document.getElementById("pos-cart");c.style.display=posCart.length?"block":"none";let tot=0;
+  document.getElementById("pos-clist").innerHTML=posCart.map((it,i)=>{const s=it.qty*it.price-it.discount;tot+=s;return`<div class="pos-cart-item" style="display:flex;justify-content:space-between;align-items:flex-start;padding:4px 0;border-bottom:1px solid var(--br);font-size:11px"><div><b>${it.name}</b><br><small style="color:var(--sub)">${it.qty}×${fN(it.price)}${it.discount?" -"+it.discount:""}</small></div><div style="display:flex;align-items:center;gap:4px"><b style="color:var(--p)">${fN(s)}₭</b><button onclick="posCart.splice(${i},1);posRenCart()" style="background:none;border:none;color:var(--d);cursor:pointer;font-size:13px">✕</button></div></div>`;}).join("");
+  document.getElementById("pos-ctot").textContent=fN(tot);
+}
+async function posSub(){
+  if(!posCart.length){toast("warn","ຍັງບໍ່ມີ");return;}
+  try{
+    await api({action:"recordBulkSale",cart:posCart});
+    const tot=posCart.reduce((s,i)=>s+i.qty*i.price-i.discount,0);
+    const custName=posCart[0]?.customerName||"";
+    const items=[...posCart];
+    posCart=[];posRenCart();
+    spPOSSale(items, tot, custName);
+  }catch(e){toast("err","ຜິດ",e.message);}
+}
+function posPrint(){if(!posCart.length)return;let rows="",tot=0;posCart.forEach(it=>{const s=it.qty*it.price-it.discount;tot+=s;rows+=`<tr><td>${it.name}</td><td>${it.qty}</td><td>${fN(s)}</td></tr>`;});const w=window.open("","_blank","width=350,height=540");w.document.write(`<html><body style="font-family:monospace;font-size:12px;padding:11px"><div style="text-align:center;font-weight:700">${lsGet().shopName||CFG.shopName}</div><hr><table width="100%"><tr><th>ສິນຄ້າ</th><th>ຈຳ</th><th>₭</th></tr>${rows}</table><hr><b>ລວມ: ${fN(tot)} ₭</b><div style="text-align:center;font-size:10px;margin-top:8px">ຂອບໃຈ 🙏</div></body></html>`);w.document.close();w.print();}
+
+// REPORTS
+let aRepR=[],aRepF=[];
+async function aLoadRep(){["r-o","r-s","r-c","r-p"].forEach(id=>document.getElementById(id).textContent="…");try{const d=await apiG("getReport");aRepR=Array.isArray(d)?d:[];aRepRange('today');}catch(e){toast("err","Rep",e.message);}}
+function aRepRange(r){const now=new Date(),fr=new Date(),to=new Date();if(r==="week")fr.setDate(now.getDate()-6);else if(r==="month")fr.setDate(now.getDate()-29);else if(r==="all"){document.getElementById("r-fr").value="";document.getElementById("r-to").value="";aRepAp();return;}document.getElementById("r-fr").value=`${fr.getFullYear()}-${p2(fr.getMonth()+1)}-${p2(fr.getDate())}`;document.getElementById("r-to").value=`${to.getFullYear()}-${p2(to.getMonth()+1)}-${p2(to.getDate())}`;aRepAp();}
+function aRepAp(){const fr=document.getElementById("r-fr").value,to=document.getElementById("r-to").value;aRepF=aRepR.filter(r=>{const d=toYMD(r[0]);if(!d)return false;if(fr&&d<fr)return false;if(to&&d>to)return false;return true;});let sT=0,cT=0,pT=0;aRepF.forEach(r=>{sT+=Number(r[3])||0;cT+=Number(r[4])||0;pT+=Number(r[5])||0;});document.getElementById("r-o").textContent=aRepF.length;document.getElementById("r-s").textContent=fN(sT)+"₭";document.getElementById("r-c").textContent=fN(cT)+"₭";document.getElementById("r-p").textContent=fN(pT)+"₭";aRepTbl();aRepFil();}
+function aRepTbl(){const m={};aRepF.forEach(r=>{const n=String(r[1]||"").trim();if(!n)return;if(!m[n])m[n]={qty:0,sales:0,cost:0,profit:0};m[n].qty+=Number(r[2])||0;m[n].sales+=Number(r[3])||0;m[n].cost+=Number(r[4])||0;m[n].profit+=Number(r[5])||0;});const ks=Object.keys(m).sort((a,b)=>m[b].sales-m[a].sales);if(!ks.length){document.getElementById("r-ptbl").innerHTML='<div class="empty">ບໍ່ມີ</div>';return;}let h='<table><tr><th>#</th><th>ສິນຄ້າ</th><th>ຊິ້ນ</th><th>ຍອດ₭</th><th>ກຳໄລ₭</th></tr>';ks.forEach((k,i)=>{h+=`<tr><td style="color:var(--sub)">${i+1}</td><td><b>${k}</b></td><td>${m[k].qty}</td><td style="color:var(--b);font-weight:700">${fN(m[k].sales)}</td><td style="color:var(--s);font-weight:700">${fN(m[k].profit)}</td></tr>`;});document.getElementById("r-ptbl").innerHTML=h+"</table>";}
+function aRepFil(){const q=(document.getElementById("r-sch").value||"").toLowerCase();const rows=q?aRepF.filter(r=>(String(r[8]||"")+String(r[1]||"")).toLowerCase().includes(q)):aRepF;const g={};rows.forEach(r=>{const k=`${toYMD(r[0])}|${r[13]}|${r[8]}`;if(!g[k])g[k]={date:r[0],code:String(r[13]||""),cust:String(r[8]||""),items:[],total:0,profit:0};g[k].items.push({n:String(r[1]||""),q:Number(r[2]||0),s:Number(r[3]||0)});g[k].total+=Number(r[3]||0);g[k].profit+=Number(r[5]||0);});const go=Object.keys(g).sort((a,b)=>b.localeCompare(a));document.getElementById("r-bills").innerHTML=go.map(k=>{const b=g[k];return`<div style="background:var(--card);border:1px solid var(--br);border-radius:9px;padding:9px;margin-bottom:7px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><b>${b.cust||"ບໍ່ລະບຸ"}</b><span style="font-size:10px;color:var(--sub)">${fmtD(b.date)}</span></div><div style="font-size:11px;color:var(--sub);margin-bottom:4px">${b.items.map(i=>`${i.n}×${i.q}=${fN(i.s)}₭`).join(", ")}</div><div style="text-align:right;font-size:12px;font-weight:700;color:var(--p)">ກຳໄລ: <span style="color:var(--s)">${fN(b.profit)}₭</span> · ${fN(b.total)}₭</div></div>`;}).join("")||'<div class="empty">ບໍ່ມີ</div>';}
+
+// HISTORY
+let aHisAll={sales:[],logs:[]},aHisD={sales:[],logs:[]},aCurH=1;
+async function aLoadHis(){document.getElementById("h-con").innerHTML=`<div class="ldc"><div class="spin"></div></div>`;try{const r=await apiG("getHistory");aHisAll={sales:r.sales||[],logs:r.logs||[]};aHisD={sales:[...aHisAll.sales],logs:[...aHisAll.logs]};aHis(aCurH);}catch(e){document.getElementById("h-con").innerHTML=`<div class="empty">❌ ${e.message}</div>`;}}
+function aHisF(){const df=document.getElementById("h-dt").value;const s=(document.getElementById("h-sch").value||"").toLowerCase();const fil=rows=>rows.filter(r=>{if(df&&toYMD(r[0])!==df)return false;if(s&&!(String(r[1]||"")+String(r[8]||"")).toLowerCase().includes(s))return false;return true;});aHisD={sales:fil(aHisAll.sales),logs:fil(aHisAll.logs)};aRenHis(aCurH);}
+function aHisClr(){document.getElementById("h-dt").value="";document.getElementById("h-sch").value="";aHisD={sales:[...aHisAll.sales],logs:[...aHisAll.logs]};aRenHis(aCurH);}
+function aHis(t){aCurH=t;document.getElementById("hb1").className="btn "+(t===1?"btn-p":"btn-gh");document.getElementById("hb2").className="btn "+(t===2?"btn-p":"btn-gh");aRenHis(t);}
+function aRenHis(t){
+  const rows=t===1?aHisD.sales:aHisD.logs;const el=document.getElementById("h-con");if(!rows||!rows.length){el.innerHTML='<div class="empty">ບໍ່ມີ</div>';return;}
+  const s=(document.getElementById("h-sch").value||"").toLowerCase();const filt=s?rows.filter(r=>(String(r[1]||"")+String(r[8]||"")).toLowerCase().includes(s)):rows;
+  const g={};filt.forEach(r=>{const d=toYMD(r[0]);if(!g[d])g[d]=[];g[d].push(r);});
+  el.innerHTML=Object.keys(g).sort((a,b)=>b.localeCompare(a)).map(dt=>{
+    const dr=g[dt];let dS=0,dP=0;if(t===1)dr.forEach(r=>{dS+=Number(r[3])||0;dP+=Number(r[5])||0;});
+    return`<div class="dgh"><span>📅 ${fmtD(dt)}</span>${t===1?`<span>${fN(dS)}₭ · ${fN(dP)}₭</span>`:""}</div>`+
+    dr.map(r=>{const rJ=JSON.stringify(r).replace(/'/g,"&#39;");if(t===1)return`<div class="hsc"><div style="display:flex;justify-content:space-between"><div><b>${r[1]}</b><span style="font-size:10px;color:var(--sub);margin-left:5px">×${r[2]}</span></div><div style="text-align:right"><div style="font-weight:700;color:var(--p)">${fN(r[3])}₭</div><div style="font-size:10px;color:var(--s)">ກຳໄລ ${fN(r[5])}₭</div></div></div>${r[8]?`<div style="font-size:11px;color:var(--sub);margin-top:3px">👤 ${r[8]}${r[9]?" · "+r[9]:""}</div>`:""}<div style="display:flex;gap:5px;margin-top:6px"><button class="btn btn-gh btn-sm" style="flex:1" onclick='aHE(${rJ})'>✏️</button><button class="btn btn-dg btn-sm" style="flex:1" onclick='aHD(${rJ})'>🗑️</button></div></div>`;const iS=String(r[2]||"").startsWith("-");return`<div class="hlc ${iS?"ts":"ta"}"><div style="display:flex;justify-content:space-between"><div><b>${r[1]}</b><span style="font-size:10px;color:var(--sub);margin-left:5px">${r[3]||""}</span></div><span style="font-weight:700;color:${iS?"var(--d)":"var(--s)"}">${r[2]||""}</span></div><div style="font-size:10px;color:var(--sub);margin-top:2px">ຄົງ ${r[4]||0}</div><div style="display:flex;gap:5px;margin-top:5px"><button class="btn btn-gh btn-sm" style="flex:1" onclick='aHSE(${rJ})'>✏️</button><button class="btn btn-dg btn-sm" style="flex:1" onclick='aHSD(${rJ})'>🗑️</button></div></div>`;}).join("");
+  }).join("");
+}
+async function aHE(r){const v=await dlgP("ແກ້",""+r[1],r[2]);if(!v)return;try{const res=await api({action:"editSaleRow",dateStr:String(r[0]),name:r[1],oldQty:r[2],newQty:v});toast("ok","ສຳ",res.message);aLoadHis();}catch(e){toast("err","ຜິດ",e.message);}}
+async function aHD(r){if(!await dlgC("ລຶບ","ລຶບ "+r[1]+"?","🗑️"))return;try{const res=await api({action:"cancelSaleData",dateStr:String(r[0]),name:r[1],qty:r[2]});toast("ok","ສຳ",res.message);aLoadHis();}catch(e){toast("err","ຜິດ",e.message);}}
+async function aHSE(r){const v=await dlgP("ແກ້",""+r[1],r[2]);if(!v)return;try{const res=await api({action:"editStockRow",dateStr:String(r[0]),name:r[1],oldQty:r[2],newQty:v});toast("ok","ສຳ",res.message);aLoadHis();}catch(e){toast("err","ຜິດ",e.message);}}
+async function aHSD(r){if(!await dlgC("ລຶບ","ລຶບ?","🗑️"))return;try{const res=await api({action:"cancelStockRow",dateStr:String(r[0]),name:r[1],qty:r[2]});toast("ok","ສຳ",res.message);aLoadHis();}catch(e){toast("err","ຜິດ",e.message);}}
+
+// SETTINGS
+function aLoadSet(){const s=lsGet();document.getElementById("set-nm").value=s.shopName||CFG.shopName;document.getElementById("set-logo").value=s.logoUrl||CFG.logoUrl;document.getElementById("set-qr").value=s.qrUrl||CFG.qrUrl||"";document.getElementById("set-pwd").value=s.adminPwd||CFG.adminPwd;document.getElementById("set-col").value=s.primaryColor||CFG.primaryColor;document.getElementById("set-dk").checked=!!s.dark;aLoadBanner();}
+async function aLoadBanner(){try{const d=await apiG("getBannerSettings");document.getElementById("set-tick").value=d.tickerText||"";}catch{}}
+async function aSaveBanner(){const t=(document.getElementById("set-tick").value||"").trim();if(!t){toast("warn","ໃສ່ຂໍ້ຄວາມ");return;}try{await api({action:"saveBannerSettings",settings:{tickerText:t}});toast("ok","Save Ticker!");}catch(e){toast("err","ຜິດ",e.message);}}
+function aSaveSet(){
+  const s=lsGet();
+  s.shopName=document.getElementById("set-nm").value.trim();
+  s.logoUrl=document.getElementById("set-logo").value.trim();
+  s.qrUrl=document.getElementById("set-qr").value.trim();
+  s.adminPwd=document.getElementById("set-pwd").value.trim();
+  s.primaryColor=document.getElementById("set-col").value;
+  s.dark=document.getElementById("set-dk").checked;
+  lsSave(s);
+  applyCol(s.primaryColor);
+  if(s.dark)document.documentElement.setAttribute("data-dk","1");
+  else document.documentElement.removeAttribute("data-dk");
+  const n=s.shopName;
+  ["c-shopname","a-sn","ll-name","c-bill-sn"].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=n;});
+  document.title=n;
+  const l=s.logoUrl;
+  ["c-logo","a-logo","ll-logo"].forEach(id=>{const e=document.getElementById(id);if(e)e.src=l;});
+  spSaveSettings(n);
+}
+function aApplyCol(c){applyCol(c);document.getElementById("set-col").value=c;}
+function aDark(on){if(on)document.documentElement.setAttribute("data-dk","1");else document.documentElement.removeAttribute("data-dk");}
+
+// NOTIF POLLING
+let aPollTmr=null,aPendN=[],aSnoozT=0;
+const aKnown=new Set();
+function aInitPoll(){aFetchN(true);clearInterval(aPollTmr);aPollTmr=setInterval(()=>aFetchN(false),30000);}
+async function aFetchN(isInit){try{const res=await api({action:"getAllOrders"});const ords=Array.isArray(res)?res:(res.data||[]);if(isInit){ords.forEach(o=>{if(o.code)aKnown.add(o.code);});return;}ords.forEach(o=>{if(!o.code||aKnown.has(o.code))return;aKnown.add(o.code);aShowN(o);});}catch{}}
+function aShowN(o){if(!aPendN.find(x=>x.code===o.code))aPendN.push(o);aRenN();aPlayS();}
+function aRenN(){if(!aPendN.length){document.getElementById("nov").classList.remove("on");document.getElementById("nbd").classList.remove("on");return;}if(Date.now()<aSnoozT){document.getElementById("nov").classList.remove("on");const b=document.getElementById("nbd");b.classList.add("on");document.getElementById("ncnt").textContent=aPendN.length;return;}document.getElementById("nov").classList.add("on");document.getElementById("nbd").classList.remove("on");document.getElementById("nlist").innerHTML=aPendN.map(o=>`<div style="background:rgba(var(--p3),.06);border:1px solid rgba(var(--p3),.2);border-radius:7px;padding:7px 9px;margin-bottom:5px"><b style="color:var(--p)">#${o.code||"-"}</b><br><small>👤 ${o.customerName||"-"} · ${fN(o.totalAmount||0)} ₭</small></div>`).join("");}
+function aRemPN(code){aPendN=aPendN.filter(o=>o.code!==code);aRenN();}
+function aViewN(){document.getElementById("nov").classList.remove("on");aNav(1);aLoadOrders();}
+function aSnooze(){aSnoozT=Date.now()+5*60*1000;aRenN();toast("info","ຊ່ວຍ 5 ນາທີ","");setTimeout(()=>{if(aPendN.length){aSnoozT=0;aRenN();aPlayS();}},5*60*1000);}
+function aReopenN(){aSnoozT=0;aRenN();}
+function aPlayS(){try{const ctx=new(window.AudioContext||window.webkitAudioContext)();[523,659,784].forEach((f,i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type="sine";o.frequency.value=f;g.gain.setValueAtTime(.2,ctx.currentTime+i*.15);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+i*.15+.2);o.start(ctx.currentTime+i*.15);o.stop(ctx.currentTime+i*.15+.25);});}catch{}}
+</script>
+
+<script>
+// ================================================================
+// SUCCESS POPUP — ທຸລະກຳທຸກຊະນິດ
+// ================================================================
+const SP_THEMES = {
+  ok:    { bg:"linear-gradient(135deg,#27ae60,#2ecc71)", color:"#fff", icon:"✅" },
+  stock: { bg:"linear-gradient(135deg,#D6377E,#F8BBD0)", color:"#fff", icon:"📦" },
+  add:   { bg:"linear-gradient(135deg,#3498db,#5dade2)", color:"#fff", icon:"➕" },
+  sale:  { bg:"linear-gradient(135deg,#f39c12,#f7dc6f)", color:"#333", icon:"💰" },
+  del:   { bg:"linear-gradient(135deg,#e74c3c,#ec7063)", color:"#fff", icon:"🗑️" },
+  order: { bg:"linear-gradient(135deg,#8e44ad,#a569bd)", color:"#fff", icon:"📋" },
+  edit:  { bg:"linear-gradient(135deg,#16a085,#1abc9c)", color:"#fff", icon:"✏️" },
+};
+
+function spShow(opts){
+  const th = SP_THEMES[opts.type||"ok"] || SP_THEMES.ok;
+  const head = document.getElementById("sphead");
+  const icon = document.getElementById("sp-icon");
+  const titleEl = document.getElementById("sp-title");
+  const subEl   = document.getElementById("sp-sub");
+  const bodyEl  = document.getElementById("sp-body");
+  const okBtn   = document.getElementById("sp-ok-btn");
+  const confEl  = document.getElementById("sp-confetti");
+
+  head.style.background = th.bg;
+  head.style.color = th.color;
+  icon.textContent  = opts.icon || th.icon;
+  titleEl.textContent = opts.title || "ສຳເລັດ!";
+  subEl.textContent   = opts.sub   || "";
+  okBtn.textContent   = opts.okText || "ຕົກລົງ";
+  okBtn.style.background = th.bg.includes("linear") ? th.bg : ("var(--p)");
+
+  bodyEl.innerHTML = (opts.rows||[]).map(r=>`
+    <div class="sprow" style="background:${r.bg||"rgba(0,0,0,.04)"}">
+      <div class="sprow-icon" style="background:${r.iconBg||"rgba(0,0,0,.08)"}">${r.icon||"📌"}</div>
+      <div><div class="sprow-label">${r.label||""}</div><div class="sprow-val" style="color:${r.valColor||"var(--tx)"}">${r.val||"-"}</div></div>
+    </div>`).join("");
+
+  confEl.innerHTML = "";
+  if(opts.type !== "del"){
+    const colors=["#FFD700","#FF69B4","#00CED1","#FF6347","#ADFF2F","#FFA500","#FF1493"];
+    for(let i=0;i<14;i++){
+      const d=document.createElement("div");
+      d.className="sp-dot";
+      d.style.cssText=`left:${5+Math.random()*90}%;top:${60+Math.random()*40}%;background:${colors[i%colors.length]};animation-delay:${Math.random()*.5}s;animation-duration:${.8+Math.random()*.6}s;width:${6+Math.random()*6}px;height:${6+Math.random()*6}px;`;
+      confEl.appendChild(d);
+    }
+  }
+
+  window._spOnOk = opts.onOk || null;
+
+  document.getElementById("spov").classList.add("on");
+  document.body.style.overflow = "hidden";
+}
+
+function spHide(){
+  document.getElementById("spov").classList.remove("on");
+  document.body.style.overflow = "";
+  if(window._spOnOk){ window._spOnOk(); window._spOnOk=null; }
+}
+
+function spClose(e){
+  if(e.target===document.getElementById("spov")) spHide();
+}
+
+// 1. ເພີ່ມສິນຄ້າໃໝ່
+function spSaveProduct(name, qty, cost, price){
+  spShow({
+    type:"add", title:"ເພີ່ມສິນຄ້າສຳເລັດ!", sub:"ສິນຄ້າໄດ້ຖືກເພີ່ມໃນຄັງແລ້ວ",
+    rows:[
+      {icon:"🏷️", label:"ຊື່ສິນຄ້າ",   val:name,                    bg:"rgba(52,152,219,.07)",   iconBg:"rgba(52,152,219,.15)"},
+      {icon:"📦", label:"ຈຳນວນ",       val:Number(qty).toLocaleString()+" ຊິ້ນ", bg:"rgba(39,174,96,.07)",  iconBg:"rgba(39,174,96,.15)", valColor:"var(--g)"},
+      {icon:"💸", label:"ລາຄາທຶນ",     val:fN(Number(cost))+" ₭",   bg:"rgba(231,76,60,.06)",   iconBg:"rgba(231,76,60,.12)"},
+      {icon:"💰", label:"ລາຄາຂາຍ",     val:fN(Number(price))+" ₭",  bg:"rgba(var(--p3),.07)",   iconBg:"rgba(var(--p3),.15)", valColor:"var(--p)"},
+    ],
+    okText:"✅ ດີ!", onOk:()=>{ aLoadStk(); }
+  });
+}
+
+// 2. ເຕີມສະຕ໋ອກ
+function spAddStock(name, addQty, newQty){
+  spShow({
+    type:"stock", title:"ເຕີມສະຕ໋ອກສຳເລັດ!", sub:"ສະຕ໋ອກໄດ້ຮັບການອັບເດດ",
+    rows:[
+      {icon:"🏷️", label:"ສິນຄ້າ",         val:name,                              bg:"rgba(var(--p3),.06)",  iconBg:"rgba(var(--p3),.14)"},
+      {icon:"➕", label:"ຈຳນວນທີ່ເຕີມ",   val:"+"+Number(addQty).toLocaleString()+" ຊິ້ນ", bg:"rgba(39,174,96,.07)", iconBg:"rgba(39,174,96,.15)", valColor:"var(--g)"},
+      {icon:"📦", label:"ຄົງຄັງໃໝ່",      val:Number(newQty).toLocaleString()+" ຊິ້ນ",    bg:"rgba(52,152,219,.07)", iconBg:"rgba(52,152,219,.15)", valColor:"var(--b)"},
+    ],
+    okText:"✅ ດີ!", onOk:()=>{ aLoadStk(); }
+  });
+}
+
+// 3. ແກ້ໄຂສິນຄ້າ
+function spEditProduct(name){
+  spShow({
+    type:"edit", title:"ແກ້ໄຂສຳເລັດ!", sub:"ຂໍ້ມູນ "+name+" ໄດ້ຖືກອັບເດດ",
+    rows:[
+      {icon:"✏️", label:"ສິນຄ້າ", val:name, bg:"rgba(22,160,133,.07)", iconBg:"rgba(22,160,133,.15)"},
+    ],
+    okText:"✅ ດີ!", onOk:()=>{ aLoadStk(); }
+  });
+}
+
+// 4. ລຶບສິນຄ້າ
+function spDelProduct(name){
+  spShow({
+    type:"del", title:"ລຶບສຳເລັດ!", sub:name+" ໄດ້ຖືກລຶບອອກຈາກລະບົບ",
+    rows:[
+      {icon:"🗑️", label:"ສິນຄ້າທີ່ລຶບ", val:name, bg:"rgba(231,76,60,.07)", iconBg:"rgba(231,76,60,.15)", valColor:"var(--d)"},
+    ],
+    icon:"🗑️", okText:"ຕົກລົງ", onOk:()=>{ aLoadStk(); }
+  });
+}
+
+// 5. ບັນທຶກການຂາຍ POS
+function spPOSSale(items, total, custName){
+  spShow({
+    type:"sale", title:"ບັນທຶກການຂາຍສຳເລັດ!", sub:custName?"👤 "+custName:"ຂາຍໜ້າຮ້ານ",
+    rows:[
+      {icon:"🛍️", label:"ລາຍການ", val:items.map(i=>i.name+"×"+i.qty).join(", "), bg:"rgba(243,156,18,.08)", iconBg:"rgba(243,156,18,.18)"},
+      {icon:"💰", label:"ຍອດລວມ", val:fN(total)+" ₭", bg:"rgba(39,174,96,.08)", iconBg:"rgba(39,174,96,.18)", valColor:"var(--g)"},
+    ],
+    okText:"✅ ດີ!", onOk:()=>{ posLoad(); aDash(); }
+  });
+}
+
+// 6. ຮັບຍອດ Order
+function spAcceptOrder(code, custName, total, items){
+  spShow({
+    type:"order", title:"ຮັບຍອດ Order ສຳເລັດ!", sub:"ຕັດສະຕ໋ອກ ແລະ ບັນທຶກການຂາຍແລ້ວ",
+    rows:[
+      {icon:"📋", label:"ລະຫັດ Order", val:"#"+code,   bg:"rgba(142,68,173,.07)",  iconBg:"rgba(142,68,173,.15)", valColor:"#8e44ad"},
+      {icon:"👤", label:"ລູກຄ້າ",      val:custName||"-", bg:"rgba(52,152,219,.06)", iconBg:"rgba(52,152,219,.12)"},
+      {icon:"🛍️", label:"ສິນຄ້າ",      val:items||"-",  bg:"rgba(var(--p3),.05)",  iconBg:"rgba(var(--p3),.12)"},
+      {icon:"💰", label:"ມູນຄ່າ",       val:fN(total)+" ₭", bg:"rgba(39,174,96,.07)", iconBg:"rgba(39,174,96,.15)", valColor:"var(--g)"},
+    ],
+    okText:"✅ ດີ!"
+  });
+}
+
+// 7. ອັບສະຖານະ Order ທົ່ວໄປ
+function spOrderStatus(code, status){
+  const icons={"ລໍຖ້າຮັບຍອດ":"⏳","ແມ່ຄ້າຮັບຍອດແລ້ວ":"✅","ກຳລັງກຽມການຈັດສົ່ງ":"📦","ຈັດສົ່ງສຳເລັດ":"🎉"};
+  spShow({
+    type:"order", title:"ອັບເດດສຳເລັດ!", sub:"Order "+code+" ໄດ້ຖືກອັບເດດ",
+    icon: icons[status]||"📋",
+    rows:[
+      {icon:"📋", label:"ລະຫັດ",     val:"#"+code,  bg:"rgba(142,68,173,.07)", iconBg:"rgba(142,68,173,.15)"},
+      {icon:icons[status]||"📌", label:"ສະຖານະໃໝ່", val:status, bg:"rgba(var(--p3),.06)", iconBg:"rgba(var(--p3),.14)", valColor:"var(--p)"},
+    ],
+    okText:"ດີ!"
+  });
+}
+
+// 8. ອັບໂຫຼດບິນຂົນສົ່ງ
+function spUploadBill(code){
+  spShow({
+    type:"ok", title:"ອັບໂຫຼດບິນສຳເລັດ!", sub:"ລູກຄ້າຈະເຫັນບິນໃນໜ້າກວດສະຖານະ",
+    rows:[
+      {icon:"📦", label:"Order",   val:"#"+code,    bg:"rgba(39,174,96,.07)",  iconBg:"rgba(39,174,96,.15)"},
+      {icon:"🖼️", label:"ສະຖານະ", val:"ອັບໂຫຼດແລ້ວ", bg:"rgba(52,152,219,.06)", iconBg:"rgba(52,152,219,.12)", valColor:"var(--b)"},
+    ],
+    okText:"✅ ດີ!", onOk:()=>{ aLoadOrders(); }
+  });
+}
+
+// 9. ລຶບ Order
+function spDelOrder(code){
+  spShow({
+    type:"del", title:"ລຶບ Order ສຳເລັດ!", sub:"Order #"+code+" ໄດ້ຖືກລຶບອອກ",
+    icon:"🗑️",
+    rows:[
+      {icon:"📋", label:"ລະຫັດ", val:"#"+code, bg:"rgba(231,76,60,.07)", iconBg:"rgba(231,76,60,.15)", valColor:"var(--d)"},
+    ],
+    okText:"ຕົກລົງ"
+  });
+}
+
+// 10. Save Settings
+function spSaveSettings(name){
+  spShow({
+    type:"ok", title:"ບັນທຶກຕັ້ງຄ່າສຳເລັດ!", sub:"ການຕັ້ງຄ່າໄດ້ຖືກບັນທຶກໃນໂທລະສັບ",
+    rows:[
+      {icon:"🏪", label:"ຊື່ຮ້ານ",   val:name,       bg:"rgba(var(--p3),.06)", iconBg:"rgba(var(--p3),.14)"},
+      {icon:"💾", label:"ສະຖານະ",    val:"ບັນທຶກແລ້ວ", bg:"rgba(39,174,96,.07)", iconBg:"rgba(39,174,96,.15)", valColor:"var(--g)"},
+    ],
+    okText:"✅ ດີ!"
+  });
+}
+</script>
+
+</body>
+</html>
