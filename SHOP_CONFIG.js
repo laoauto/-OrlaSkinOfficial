@@ -11,7 +11,7 @@ const SHOP_CONFIG = {
   // ─── 1. ຂໍ້ມູນຮ້ານ ────────────────────────────────────────────
   shopName:   "Orla Skin Official",
   slogan:     "ຜິວກະຈ່າງໃສ ທຳມະຊາດ · ດູແລງ່າຍ · ໝັ້ນໃຈທຸກມື້",
-  logoUrl:    "https://drive.google.com/thumbnail?id=1uZ07HjYD7jANYbD7B9VlN4FMhRVJssaZ&sz=w300",
+  logoUrl:    "https://drive.google.com/thumbnail?id=1l1GIln_RdlbaCIZKmlR5pqu9EXsq57j5&sz=w300",
 
   // ─── 2. ຊ່ອງທາງຕິດຕໍ່ ─────────────────────────────────────────
   phone:        "020 9663 1028",
