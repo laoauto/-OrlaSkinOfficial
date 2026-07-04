@@ -688,6 +688,7 @@ input:checked+.sldr::before{transform:translateX(18px);}
     <div class="setsec">
       <h4>🏪 ຂໍ້ມູນຮ້ານ</h4>
       <div class="setr"><label>ຊື່ຮ້ານ</label><input type="text" id="set-nm"></div>
+      <div class="setr"><label>ເບີໂທຮ້ານ</label><input type="text" id="set-ph" placeholder="020XXXXXXXX"></div>
       <div class="setr"><label>ລິ້ງໂລໂກ້</label><input type="url" id="set-logo"></div>
       <div class="setr"><label>ລິ້ງ QR ຊຳລະ</label><input type="url" id="set-qr"></div>
       <div class="setr"><label>ລະຫັດຜ່ານ</label><input type="text" id="set-pwd"></div>
@@ -818,6 +819,7 @@ input:checked+.sldr::before{transform:translateX(18px);}
 const CFG={
   shopName:"Orla Skin Official",
   shopSlogan:"ຜິວກະຈ່າງໃສ ທຳມະຊາດ · ດູແລງ່າຍ · ໝັ້ນໃຈທຸກມື້",
+  shopPhone:"020 9663 1028",
   logoUrl:"https://drive.google.com/thumbnail?id=1l1GIln_RdlbaCIZKmlR5pqu9EXsq57j5&sz=w300",
   primaryColor:"#D6377E",
   adminPwd:"orla2026",
@@ -1305,8 +1307,8 @@ async function aDelOrd(code){
 }
 function aViewImg(url,t){document.getElementById("a-imgmt").textContent=t;document.getElementById("a-imgsrc").src=gthumb(url,800)||url;document.getElementById("a-imglink").href=url;aMOpen("a-imgm");}
 (()=>{let _c="";document.addEventListener("click",e=>{const b=e.target.closest(".upbb[data-code]");if(!b)return;_c=b.getAttribute("data-code")||"";if(_c)document.getElementById("shipf").click();});document.getElementById("shipf").addEventListener("change",function(){const f=this.files[0];if(!f||!_c)return;const code=_c;this.value="";toast("info","ກຳລັງອັບ...","");const r=new FileReader();r.onload=async ev=>{try{await api({action:"uploadShippingBill",code,shipBillBase64:ev.target.result});spUploadBill(code);}catch(e){toast("err","ຜິດ",e.message);};};r.readAsDataURL(f);});})();
-function aPrintOrd(code){const o=aOrds.find(x=>x.code===code);if(!o)return;const w=window.open("","_blank","width=370,height=580");w.document.write(`<html><body style="font-family:monospace;font-size:12px;padding:12px"><div style="text-align:center;font-weight:700;font-size:14px;margin-bottom:8px">${lsGet().shopName||CFG.shopName}</div><hr><div>ລະຫັດ: <b>${o.code}</b></div><div>ວັນ: ${o.submittedAt||""}</div><div>👤 ${o.customerName||""} 📞 ${o.customerPhone||""}</div><div>📍 ${o.customerAddr||""}</div><div>🚚 ${o.shipping||""} 💳 ${o.payment||""}</div><hr><div style="white-space:pre-line">${o.itemsSummary||""}</div><hr><b>ລວມ: ${fN(o.totalAmount||0)} ₭</b><div style="text-align:center;margin-top:8px;font-size:10px">ຂອບໃຈ 🙏</div></body></html>`);w.document.close();w.print();}
-function aPrintAll(){const d=aOrds.filter(o=>{const dt=document.getElementById("a-odate").value;if(!dt)return true;const t=String(o.submittedAt||"");const m=t.match(/(\d{2})\/(\d{2})\/(\d{4})/);return m?`${m[3]}-${m[2]}-${m[1]}`===dt:t.startsWith(dt);});if(!d.length){toast("warn","ບໍ່ມີ");return;}const tot=d.reduce((s,o)=>s+(Number(o.totalAmount)||0),0);const w=window.open("","_blank","width=400,height=700");w.document.write(`<html><body style="font-family:monospace;font-size:12px"><div style="text-align:center;font-size:14px;font-weight:700;padding:12px;border-bottom:2px solid #333">${lsGet().shopName||CFG.shopName}<br>${d.length} ໃບ · ${fN(tot)} ₭</div>${d.map(o=>`<div style="padding:11px;border-bottom:1px dashed #ccc"><b>#${o.code}</b> ${o.submittedAt||""}<br>👤 ${o.customerName||""} 📞 ${o.customerPhone||""}<br>💰 ${fN(o.totalAmount||0)} ₭ · ${o.orderStatus||""}</div>`).join("")}</body></html>`);w.document.close();setTimeout(()=>w.print(),400);}
+function aPrintOrd(code){const o=aOrds.find(x=>x.code===code);if(!o)return;const w=window.open("","_blank","width=370,height=580");const sn=lsGet().shopName||CFG.shopName;const sp=lsGet().shopPhone||CFG.shopPhone||"";w.document.write(`<html><body style="font-family:monospace;font-size:12px;padding:12px"><div style="text-align:center;font-weight:700;font-size:14px;margin-bottom:8px">${sn}</div><hr><div>ລະຫັດ: <b>${o.code}</b></div><div>ວັນ: ${o.submittedAt||""}</div><div>👤 ${o.customerName||""} 📞 ${o.customerPhone||""}</div><div>📍 ${o.customerAddr||""}</div><div>🚚 ${o.shipping||""} 💳 ${o.payment||""}</div><div style="margin-top:4px;padding-top:4px;border-top:1px dashed #999">📦 ຜູ້ສົ່ງ: <b>${sn}</b> ☎ <b>${sp}</b></div><hr><div style="white-space:pre-line">${o.itemsSummary||""}</div><hr><b>ລວມ: ${fN(o.totalAmount||0)} ₭</b><div style="text-align:center;margin-top:8px;font-size:10px">ຂອບໃຈ 🙏</div></body></html>`);w.document.close();w.print();}
+function aPrintAll(){const d=aOrds.filter(o=>{const dt=document.getElementById("a-odate").value;if(!dt)return true;const t=String(o.submittedAt||"");const m=t.match(/(\d{2})\/(\d{2})\/(\d{4})/);return m?`${m[3]}-${m[2]}-${m[1]}`===dt:t.startsWith(dt);});if(!d.length){toast("warn","ບໍ່ມີ");return;}const tot=d.reduce((s,o)=>s+(Number(o.totalAmount)||0),0);const w=window.open("","_blank","width=400,height=700");const sn=lsGet().shopName||CFG.shopName;const sp=lsGet().shopPhone||CFG.shopPhone||"";w.document.write(`<html><body style="font-family:monospace;font-size:12px"><div style="text-align:center;font-size:14px;font-weight:700;padding:12px;border-bottom:2px solid #333">${sn}<br>${d.length} ໃບ · ${fN(tot)} ₭</div>${d.map(o=>`<div style="padding:11px;border-bottom:1px dashed #ccc"><b>#${o.code}</b> ${o.submittedAt||""}<br>👤 ${o.customerName||""} 📞 ${o.customerPhone||""}<br>🚚 ${o.shipping||"-"} · 💳 ${o.payment||"-"}<br>📦 ຜູ້ສົ່ງ: <b>${sn}</b> ☎ <b>${sp}</b><br>💰 ${fN(o.totalAmount||0)} ₭ · ${o.orderStatus||""}</div>`).join("")}</body></html>`);w.document.close();setTimeout(()=>w.print(),400);}
 
 // STOCK
 let aCurEN="";
@@ -1411,7 +1413,7 @@ async function posSub(){
     spPOSSale(items, tot, custName);
   }catch(e){toast("err","ຜິດ",e.message);}
 }
-function posPrint(){if(!posCart.length)return;let rows="",tot=0;posCart.forEach(it=>{const s=it.qty*it.price-it.discount;tot+=s;rows+=`<tr><td>${it.name}</td><td>${it.qty}</td><td>${fN(s)}</td></tr>`;});const w=window.open("","_blank","width=350,height=540");w.document.write(`<html><body style="font-family:monospace;font-size:12px;padding:11px"><div style="text-align:center;font-weight:700">${lsGet().shopName||CFG.shopName}</div><hr><table width="100%"><tr><th>ສິນຄ້າ</th><th>ຈຳ</th><th>₭</th></tr>${rows}</table><hr><b>ລວມ: ${fN(tot)} ₭</b><div style="text-align:center;font-size:10px;margin-top:8px">ຂອບໃຈ 🙏</div></body></html>`);w.document.close();w.print();}
+function posPrint(){if(!posCart.length)return;let rows="",tot=0;posCart.forEach(it=>{const s=it.qty*it.price-it.discount;tot+=s;rows+=`<tr><td>${it.name}</td><td>${it.qty}</td><td>${fN(s)}</td></tr>`;});const w=window.open("","_blank","width=350,height=540");const sn=lsGet().shopName||CFG.shopName;const sp=lsGet().shopPhone||CFG.shopPhone||"";const shipRow=posCart[0]?.shipping?`<div>🚚 ${posCart[0].shipping}</div>`:"";w.document.write(`<html><body style="font-family:monospace;font-size:12px;padding:11px"><div style="text-align:center;font-weight:700">${sn}</div><div style="text-align:center;font-size:11px">☎ ${sp}</div><hr>${shipRow}<table width="100%"><tr><th>ສິນຄ້າ</th><th>ຈຳ</th><th>₭</th></tr>${rows}</table><hr><b>ລວມ: ${fN(tot)} ₭</b><div style="margin-top:6px">📦 ຜູ້ສົ່ງ: <b>${sn}</b> ☎ <b>${sp}</b></div><div style="text-align:center;font-size:10px;margin-top:8px">ຂອບໃຈ 🙏</div></body></html>`);w.document.close();w.print();}
 
 // REPORTS
 let aRepR=[],aRepF=[];
@@ -1443,12 +1445,13 @@ async function aHSE(r){const v=await dlgP("ແກ້",""+r[1],r[2]);if(!v)return
 async function aHSD(r){if(!await dlgC("ລຶບ","ລຶບ?","🗑️"))return;try{const res=await api({action:"cancelStockRow",dateStr:String(r[0]),name:r[1],qty:r[2]});toast("ok","ສຳ",res.message);aLoadHis();}catch(e){toast("err","ຜິດ",e.message);}}
 
 // SETTINGS
-function aLoadSet(){const s=lsGet();document.getElementById("set-nm").value=s.shopName||CFG.shopName;document.getElementById("set-logo").value=s.logoUrl||CFG.logoUrl;document.getElementById("set-qr").value=s.qrUrl||CFG.qrUrl||"";document.getElementById("set-pwd").value=s.adminPwd||CFG.adminPwd;document.getElementById("set-col").value=s.primaryColor||CFG.primaryColor;document.getElementById("set-dk").checked=!!s.dark;aLoadBanner();}
+function aLoadSet(){const s=lsGet();document.getElementById("set-nm").value=s.shopName||CFG.shopName;document.getElementById("set-ph").value=s.shopPhone||CFG.shopPhone||"";document.getElementById("set-logo").value=s.logoUrl||CFG.logoUrl;document.getElementById("set-qr").value=s.qrUrl||CFG.qrUrl||"";document.getElementById("set-pwd").value=s.adminPwd||CFG.adminPwd;document.getElementById("set-col").value=s.primaryColor||CFG.primaryColor;document.getElementById("set-dk").checked=!!s.dark;aLoadBanner();}
 async function aLoadBanner(){try{const d=await apiG("getBannerSettings");document.getElementById("set-tick").value=d.tickerText||"";}catch{}}
 async function aSaveBanner(){const t=(document.getElementById("set-tick").value||"").trim();if(!t){toast("warn","ໃສ່ຂໍ້ຄວາມ");return;}try{await api({action:"saveBannerSettings",settings:{tickerText:t}});toast("ok","Save Ticker!");}catch(e){toast("err","ຜິດ",e.message);}}
 function aSaveSet(){
   const s=lsGet();
   s.shopName=document.getElementById("set-nm").value.trim();
+  s.shopPhone=document.getElementById("set-ph").value.trim();
   s.logoUrl=document.getElementById("set-logo").value.trim();
   s.qrUrl=document.getElementById("set-qr").value.trim();
   s.adminPwd=document.getElementById("set-pwd").value.trim();
